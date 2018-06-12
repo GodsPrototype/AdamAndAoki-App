@@ -13,13 +13,13 @@ class MainSwipeableScreen extends Component<Props> {
                 style={styles.viewPager}
                 initialPage={0}>
                 <View key="0">
-                    <HomeScreen/>
+                    <HomeScreen {...this.props}/>
                 </View>
                 <View key="1">
-                    <FamilyScreen/>
+                    <FamilyScreen {...this.props}/>
                 </View>
                 <View key="2">
-                    <AboutScreen/>
+                    <AboutScreen {...this.props}/>
                 </View>
             </ViewPagerAndroid>
         )
