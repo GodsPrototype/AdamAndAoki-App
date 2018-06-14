@@ -20,7 +20,18 @@ import FamilyScreen from './src/FamilyScreen';
 import EditMemberScreen from './src/EditMemberScreen';
 import ViewMemberScreen from './src/ViewMemberScreen';
 import MainSwipeableScreen from './src/MainSwipeableScreen';
+import {COLOR, ThemeProvider } from 'react-native-material-ui';
 
+const uiTheme = {
+  palette: {
+    primaryColor: COLOR.green500,
+  },
+  toolbar: {
+    container: {
+      height: 50,
+    },
+  }
+}
 
 // Define all the different screens we can navigate to
 // TODO: Some of these could be removed, because they are navigated
@@ -41,10 +52,14 @@ const RootStack = createStackNavigator(
 );
 
 // Export the class App, which returns our RootStack component with
-// different screens defined, which should go to the Intro screen
-// first
+// different screens defined, through which our IntroScreen should be the
+// first to be initialised
 export default class App extends Component {
   render() {
-    return <RootStack/>;
+    return (
+      <ThemeProvider uiTheme={uiTheme}>
+        <RootStack/>
+      </ThemeProvider>
+    )
   }
 };

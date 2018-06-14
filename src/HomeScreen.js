@@ -1,60 +1,88 @@
 import React, {Component} from 'react';
 import {View, Text, Button, Alert} from 'react-native';
+// import {Card} from 'react-native-material-ui';
 import axios from 'axios';
+import GaugeComponent from './GaugeComponent';
 
 type Props = {};
 class HomeScreen extends Component<Props> {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            UV: null,
-            Temp: null
-        }
-    }
-
-    componentWillUpdate() {
-        
+    // State for homescreen is only uv and temp, which is initialised as null
+    state = {
+        uv: null,
+        temp: null
     }
 
     fetchUV() {
-        const request = axios.create({
-            baseURL: 'https://api.openuv.io/api/v1/uv',
-            timeout: 1000,
-            // TODO: Get the actual location using geo location
-            params: {
-                lat: 38.94,
-                lng: -105.64
-            },
-            headers: {'x-access-token': '3bfe269e1ba5271982a206ccafaa8fa3'}
-        });
+        navigator.geolocation.getCurrentPosition((pos) => {
+            const lat = pos.coords.latitude;
+            const long = pos.coords.longitude;
 
-        request.get().then((res) => {
-            Alert.alert(res.data.result.uv.toString());
+            const request = axios.create({
+                baseURL: 'https://api.openuv.io/api/v1/uv',
+                timeout: 1000,
+                params: {
+                    lat: lat,
+                    lng: long
+                },
+                headers: {'x-access-token': '3bfe269e1ba5271982a206ccafaa8fa3'}
+            });
+
+            request.get().then((res) => {
+                this.setState({
+                    uv: res.data.result.uv
+                })
+            }).catch((error) => {
+                Alert.alert(error.toString());
+            });
+        }, (err) => {
+            Alert.alert(err.toString());
         });
     }
 
     // TODO: Fetch temperature from Buienradar
     fetchTemp() {
-        
+        navigator.geolocation.getCurrentPosition((pos) => {
+            const lat = pos.coords.latitude;
+            const long = pos.coords.longitude;
+
+            const request = axios.create({
+                baseURL: 'http://api.openweathermap.org/data/2.5/weather',
+                timeout: 1000,
+                // TODO: Get the actual location using geo location
+                params: {
+                    lat: lat,
+                    lon: long,
+                    APPID: 'cd88704cd0416236441a1a1a7e9d6b31'
+                }
+            });
+
+            request.get().then((res) => {
+                Alert.alert(res.toString());
+                // this.setState({
+                //     temp: res.main.temp
+                // });
+            }).catch((err) => {
+                Alert.alert(err.toString());
+            });
+        })
     }
-    
+
     render() {
         return(
             <View>
-                <Text>
-                    HomeScreen
-                </Text>
-                <Text>
-
-                </Text>
+                <Text>HomeScreen</Text>
+                <GaugeComponent value={this.state.uv} />
+                <GaugeComponent value={this.state.temp} />
                 <Button
-                    title="Fetch UV"
                     onPress={this.fetchUV.bind(this)}
+                    title="Fetch UV"
                 />
-                
+                <Button
+                    onPress={this.fetchTemp.bind(this)}
+                    title="Fetch Temp"
+                />
             </View>
-        )
+        );
     }
 }
 

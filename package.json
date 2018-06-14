@@ -12,6 +12,9 @@
     "react-native": "0.55.4",
     "react-native-action-button": "^2.8.4",
     "react-native-cli": "^2.0.1",
+    "react-native-material-ui": "^1.22.3",
+    "react-native-simple-gauge": "^0.1.10",
+    "react-native-vector-icons": "^4.6.0",
     "react-navigation": "^2.3.0"
   },
   "devDependencies": {
