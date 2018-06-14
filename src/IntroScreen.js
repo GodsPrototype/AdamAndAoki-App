@@ -16,7 +16,7 @@ type Props = {};
 class IntroScreen extends Component<Props> {
 
   render() {
-    const {navigate} = this.props.navigation;
+    const {replace} = this.props.navigation;
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
@@ -24,7 +24,7 @@ class IntroScreen extends Component<Props> {
         </Text>
         <ActionButton
           onPress={() =>
-            navigate('Swipeable')
+            replace('Swipeable')
           }
           icon="done"
         />

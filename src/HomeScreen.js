@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, Button, Alert} from 'react-native';
+import {View, Text, Button, Alert, StyleSheet} from 'react-native';
 // import {Card} from 'react-native-material-ui';
 import axios from 'axios';
 import GaugeComponent from './GaugeComponent';
@@ -63,7 +63,8 @@ class HomeScreen extends Component<Props> {
 
             request.get().then((res) => {
                 this.setState({
-                    temp: res.data.main.temp
+                    // Converting from Kelvin to Celsius, and setting state
+                    temp: res.data.main.temp - 272
                 });
             }).catch((err) => {
                 Alert.alert(err.toString());
@@ -74,7 +75,7 @@ class HomeScreen extends Component<Props> {
     render() {
         return(
             <View>
-                <Text>HomeScreen</Text>
+                <Text style={styles.title}>HomeScreen</Text>
                 <GaugeComponent value={this.state.uv} />
                 <GaugeComponent value={this.state.temp} />
                 <Button
@@ -89,5 +90,12 @@ class HomeScreen extends Component<Props> {
         );
     }
 }
+
+const styles = StyleSheet.create({
+    title: {
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
+});
 
 export default HomeScreen;
