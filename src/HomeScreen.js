@@ -12,6 +12,11 @@ class HomeScreen extends Component<Props> {
         temp: null
     }
 
+    componentWillMount() {
+        this.fetchUV();
+        this.fetchTemp();
+    }
+
     fetchUV() {
         navigator.geolocation.getCurrentPosition((pos) => {
             const lat = pos.coords.latitude;
@@ -57,10 +62,9 @@ class HomeScreen extends Component<Props> {
             });
 
             request.get().then((res) => {
-                Alert.alert(res.toString());
-                // this.setState({
-                //     temp: res.main.temp
-                // });
+                this.setState({
+                    temp: res.data.main.temp
+                });
             }).catch((err) => {
                 Alert.alert(err.toString());
             });

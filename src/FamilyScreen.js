@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text} from 'react-native';
-import ActionButton from 'react-native-action-button';
+import {ActionButton} from 'react-native-material-ui';
 import EditMemberScreen from './EditMemberScreen';
 import ViewMemberScreen from './ViewMemberScreen';
 
@@ -13,9 +13,10 @@ class FamilyScreen extends Component {
                     FamilyScreen
                 </Text>
                 <ActionButton
-                    buttonColor="rgba(231,76,60,1)"
-                    onPress={() => navigate('EditMember')}
-                    >
+                  onPress={() =>
+                    navigate('Swipeable')
+                  }
+                >
                 </ActionButton>
             </View>
         )

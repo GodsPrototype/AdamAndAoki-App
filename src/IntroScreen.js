@@ -10,11 +10,11 @@ import {
   Text,
   View
 } from 'react-native';
-import ActionButton from 'react-native-action-button';
+import {ActionButton} from 'react-native-material-ui';
 
 type Props = {};
 class IntroScreen extends Component<Props> {
-    
+
   render() {
     const {navigate} = this.props.navigation;
     return (
@@ -23,13 +23,11 @@ class IntroScreen extends Component<Props> {
           Adam & Aoki
         </Text>
         <ActionButton
-          buttonColor="rgba(231,76,60,1)"
-          onPress={() => 
+          onPress={() =>
             navigate('Swipeable')
           }
-        >
-
-        </ActionButton>
+          icon="done"
+        />
       </View>
     );
   }
