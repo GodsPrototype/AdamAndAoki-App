@@ -69,15 +69,20 @@ class HomeScreen extends Component<Props> {
             }).catch((err) => {
                 Alert.alert(err.toString());
             });
-        })
+        });
+    }
+
+    openWeather() {
+        const {navigate} = this.props.navigation;
+        navigate('Weather');
     }
 
     render() {
         return(
             <View>
                 <Text style={styles.title}>HomeScreen</Text>
-                <GaugeComponent value={this.state.uv} />
-                <GaugeComponent value={this.state.temp} />
+                <GaugeComponent enableButton={false} value={this.state.uv} />
+                <GaugeComponent enableButton={true} openWeather={this.openWeather.bind(this)} value={this.state.temp} />
                 <Button
                     onPress={this.fetchUV.bind(this)}
                     title="Fetch UV"
