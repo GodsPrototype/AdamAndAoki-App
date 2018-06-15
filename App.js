@@ -11,7 +11,6 @@ import {
   Text,
   View
 } from 'react-native';
-import ActionButton from 'react-native-action-button';
 import {createStackNavigator} from 'react-navigation';
 import IntroScreen from './src/IntroScreen';
 import HomeScreen from './src/HomeScreen';

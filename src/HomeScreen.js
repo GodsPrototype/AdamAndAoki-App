@@ -77,6 +77,11 @@ class HomeScreen extends Component<Props> {
         navigate('Weather');
     }
 
+    openWeather() {
+        const {navigate} = this.props.navigation;
+        navigate('Weather');
+    }
+
     render() {
         return(
             <View>
