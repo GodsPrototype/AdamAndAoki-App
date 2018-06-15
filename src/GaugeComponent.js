@@ -5,20 +5,28 @@ import {Card} from 'react-native-material-ui';
 class GaugeComponent extends Component {
 
     render() {
-        const value = this.props.value;
-        if (value === null) {
+        const {value, openWeather, key} = this.props;
+
+        if (value === null || key === false) {
+            if (value === false) {
+                return(
+                    <Card>
+                        <Text>No Data</Text>
+                    </Card>
+                );
+            }
             return(
                 <Card>
-                    <Text>No Data</Text>
+                    <Text>{value}</Text>
                 </Card>
             );
         }
 
         return(
-            <Card>
+            <Card onPress={() => openWeather()}>
                 <Text>{value}</Text>
             </Card>
-        )
+        );
     };
 }
 
