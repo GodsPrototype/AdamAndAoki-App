@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, FlatList, Dimensions} from 'react-native';
+import {View, Text, StyleSheet, FlatList, Dimensions, StatusBar} from 'react-native';
 import {ActionButton} from 'react-native-material-ui';
-import EditMemberScreen from './EditMemberScreen';
-import ViewMemberScreen from './ViewMemberScreen';
 import MemberCard from './MemberCard';
 import SQLite from 'react-native-sqlite-storage';
 
@@ -69,7 +67,7 @@ class FamilyScreen extends Component {
             name={item.name}
             initials={item.initials}
             image={item.image}
-            onPress={() => this.props.navigation.navigate('EditMember')}
+            onPress={() => this.props.navigation.navigate('ViewMember', { id: item.id })}
         />
     );
 
@@ -86,6 +84,7 @@ class FamilyScreen extends Component {
         // TODO: Use Sqlite, and load users from there
         return(
             <View>
+                <StatusBar hidden />
                 <Text>
                     FamilyScreen
                 </Text>
@@ -95,6 +94,9 @@ class FamilyScreen extends Component {
                     keyExtractor={this.keyExtractor}
                     numColumns={this.getColumnCount()}
                     />
+                <ActionButton
+                    onPress={() => this.props.navigation.navigate('EditMember')}
+                />
             </View>
         )
     }

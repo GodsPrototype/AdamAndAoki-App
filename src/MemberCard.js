@@ -1,15 +1,10 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import {Card, Avatar} from 'react-native-material-ui';
+import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
+import {Avatar} from 'react-native-material-ui';
 
 class MemberCard extends Component {
   render() {
-    const {id, name, initials, image, onPress} = this.props;
-
-    // For testing only. This will actually redirect to the edit/view screen with the member id
-    // onPress = () => {
-    //   Alert.alert('You pressed on ' + name + ', id: ' + id);
-    // }
+    const {name, initials, image, onPress} = this.props;
 
     // Double view for styling purposes
     return(
@@ -18,7 +13,7 @@ class MemberCard extends Component {
             <View style={styles.viewStyle}>
                 <Avatar
                     text={initials}
-                    image={{uri: image}}
+                    image={<Image source={{uri: image}} />}
                     size={85}
                     style={{content: styles.avatatTextStyle}}
                 />
