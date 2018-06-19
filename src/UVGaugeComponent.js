@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, StyleSheet} from 'react-native';
+import {Text, StyleSheet, View} from 'react-native';
 import {Card} from 'react-native-material-ui';
 import { AnimatedGaugeProgress, GaugeProgress } from 'react-native-simple-gauge';
 
@@ -9,7 +9,8 @@ class GaugeComponent extends Component {
         const {value, openWeather, key} = this.props;
 
         return (
-          <Card>
+          <View style={styles.view}>
+            <Text style={styles.text}>{value}</Text>
             <AnimatedGaugeProgress
               size={200}
               width={15}
@@ -20,14 +21,20 @@ class GaugeComponent extends Component {
               backgroundColor="#b0c4de"
               stroke={[2, 2]} //For a equaly dashed line
               strokeCap="circle" />
-              <Text>{value}</Text>
-          </Card>
+          </View>
         )
     };
 }
 
 const styles = StyleSheet.create({
-
+  view: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  text: {
+    position: 'absolute'
+  }
 });
 
 export default GaugeComponent;
