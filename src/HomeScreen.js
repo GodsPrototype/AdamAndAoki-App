@@ -3,6 +3,8 @@ import {View, Text, Button, Alert, StyleSheet} from 'react-native';
 // import {Card} from 'react-native-material-ui';
 import axios from 'axios';
 import GaugeComponent from './GaugeComponent';
+import UVGaugeComponent from './UVGaugeComponent';
+import TempGaugeComponent from './TempGaugeComponent';
 
 type Props = {};
 class HomeScreen extends Component<Props> {
@@ -81,16 +83,8 @@ class HomeScreen extends Component<Props> {
         return(
             <View>
                 <Text style={styles.title}>HomeScreen</Text>
-                <GaugeComponent enableButton={false} value={this.state.uv} />
-                <GaugeComponent enableButton={true} openWeather={this.openWeather.bind(this)} value={this.state.temp} />
-                <Button
-                    onPress={this.fetchUV.bind(this)}
-                    title="Fetch UV"
-                />
-                <Button
-                    onPress={this.fetchTemp.bind(this)}
-                    title="Fetch Temp"
-                />
+                <UVGaugeComponent enableButton={false} value={this.state.uv}  />
+                <TempGaugeComponent enableButton={true} openWeather={this.openWeather.bind(this)} value={this.state.temp} />
             </View>
         );
     }
