@@ -73,7 +73,7 @@ class FamilyScreen extends Component {
             initials={item.initials}
             image={item.image}
             onPress={() => this.props.navigation.navigate(
-                'ViewMember', 
+                'ViewMember',
                 {id: item.id, beforeBack: this.goBackFunction, database: db}
             )}
         />
@@ -101,7 +101,7 @@ class FamilyScreen extends Component {
 
                     <ActionButton
                         onPress={() => this.props.navigation.navigate(
-                            'EditMember', 
+                            'EditMember',
                             {beforeBack: this.goBackFunction, database: db}
                         )}
                     />

@@ -79,9 +79,9 @@ class EditMemberScreen extends Component {
       tx.executeSql(
         'UPDATE FamilyMember SET name = ?, initials = ?, phone = ?, skinType = ? WHERE id = ?',
         [
-          this.state.member.name, 
+          this.state.member.name,
           this.state.member.initials,
-          this.state.member.phone, 
+          this.state.member.phone,
           this.state.member.skinType,
           this.state.member.id
         ],

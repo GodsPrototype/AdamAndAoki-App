@@ -32,11 +32,11 @@ class ViewMemberScreen extends Component {
         console.log('### Error: ' + err.message)
         return false;
     }
-  
+
     successCB = () => {
         console.log('### Done.');
     }
-  
+
     queryData = () => {
       if(mid !== -1){
         db.transaction((tx) => {
@@ -68,7 +68,7 @@ class ViewMemberScreen extends Component {
 
     edit = () => {
         this.props.navigation.navigate(
-            'EditMember', 
+            'EditMember',
             {id: this.state.member.id, beforeBack: this.goBackFunction, database: db}
         );
     }
