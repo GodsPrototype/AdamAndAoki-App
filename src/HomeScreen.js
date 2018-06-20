@@ -5,18 +5,58 @@ import axios from 'axios';
 import GaugeComponent from './GaugeComponent';
 import UVGaugeComponent from './UVGaugeComponent';
 import TempGaugeComponent from './TempGaugeComponent';
+import SQLite from 'react-native-sqlite-storage';
+
+SQLite.DEBUG(true);
+SQLite.enablePromise(false);
+let db;
 
 type Props = {};
 class HomeScreen extends Component<Props> {
     // State for homescreen is only uv and temp, which is initialised as null
     state = {
         uv: null,
-        temp: null
+        temp: null,
+        recommendations: null
     }
 
     componentWillMount() {
+        this.openDatabase();
         this.fetchUV();
         this.fetchTemp();
+    }
+
+    // SQL methods
+    errorCB = (err) => {
+        console.log('### Error: ' + err.message)
+        return false;
+    }
+
+    successCB = () => {
+        console.log('### Done.');
+    }
+
+    openDatabase = () => {
+        // Load database from existing file
+        console.log('### Opening database...');
+        db = SQLite.openDatabase({name : 'MemberDB', createFromLocation : '~MemberDB.db'}, this.successCB, this.errorCB);
+    }
+
+    insertData = () => {
+      db.transaction((tx) => {
+        console.log('### Inserting...');
+        rec = this.state.recommendations;
+
+        for (let k in rec) {
+          console.log("key " + k + " and value: " + rec[k] + " type " + typeof rec[k]);
+          tx.executeSql(
+            'INSERT INTO ExposureTimes (skin_type, exposure_time) VALUES (?, ?)',
+            [k, rec[k]],
+            this.successCB,
+            this.errorCB
+          );
+        }
+      })
     }
 
     fetchUV() {
@@ -36,8 +76,10 @@ class HomeScreen extends Component<Props> {
 
             request.get().then((res) => {
                 this.setState({
-                    uv: res.data.result.uv
-                })
+                    uv: res.data.result.uv,
+                    recommendations: res.data.result.safe_exposure_time
+                });
+                this.insertData();
             }).catch((error) => {
                 Alert.alert(error.toString());
             });
