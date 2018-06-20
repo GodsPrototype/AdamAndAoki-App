@@ -5,16 +5,14 @@ import SQLite from 'react-native-sqlite-storage';
 
 SQLite.DEBUG(true);
 SQLite.enablePromise(false);
-let db;
+let db, mid = -1;
 
 class EditMemberScreen extends Component {
   constructor() {
-    console.log('%%%%% CONSTRUCTOR');
     super();
-    // will have to add all fields into the state object
     this.state = {
       member: {
-        id: -1,
+        id: mid,
         name: '',
         initials: '',
         skinType: '',
@@ -24,15 +22,11 @@ class EditMemberScreen extends Component {
   }
 
   componentWillMount = () => {
-    // db = this.props.navigation.getParams('db');
-    console.log('%%%%% CMP WILL MOUNT');
-    // this.setState({member: {id: this.props.navigation.getParams('id', -1)}})
-    // this.openDatabase();
-    // this.queryData();
-  }
-
-  componentWillUnmount = () => {
-    // this.closeDatabase();
+    // Save the id in a local variable mid, because the state will take some time to set up completely
+    mid = this.props.navigation.getParam('id', -1);
+    db = this.props.navigation.getParam('database');
+    this.setState({member: {...this.state.member, id: mid}});
+    this.queryData();
   }
 
   // SQL methods
@@ -45,18 +39,11 @@ class EditMemberScreen extends Component {
       console.log('### Done.');
   }
 
-  openDatabase = () => {
-      // Load database from existing file
-      console.log('### Opening database...');
-      db = SQLite.openDatabase({name : 'MemberDB', createFromLocation : '~MemberDB.db'}, this.successCB, this.errorCB);
-  }
-
   queryData = () => {
-    console.log('%%%%% QUERY DATA');
-    if(this.state.member.id !== -1){
+    if(mid !== -1){
       db.transaction((tx) => {
         console.log('### Querying...');
-        tx.executeSql('SELECT * FROM FamilyMember WHERE id = ?', [this.state.member.id], (tx, results) => {
+        tx.executeSql('SELECT * FROM FamilyMember WHERE id = ?', [mid], (tx, results) => {
             console.log('### Query completed');
             this.setState({member: results.rows.item(0)});
         }, this.errorCB);
@@ -70,6 +57,7 @@ class EditMemberScreen extends Component {
     } else {
       this.updateData();
     }
+    this.props.navigation.state.params.beforeBack();
     this.props.navigation.goBack();
   }
 
@@ -77,8 +65,8 @@ class EditMemberScreen extends Component {
     db.transaction((tx) => {
       console.log('### Inserting...');
       tx.executeSql(
-        'INSERT INTO FamilyMember (name, initials) VALUES (?, ?)',
-        [this.state.member.name, this.state.member.initials],
+        'INSERT INTO FamilyMember (name, initials, phone, skinType) VALUES (?, ?, ?, ?)',
+        [this.state.member.name, this.state.member.initials, this.state.member.phone, this.state.member.skinType],
         this.successCB,
         this.errorCB
       );
@@ -89,41 +77,24 @@ class EditMemberScreen extends Component {
     db.transaction((tx) => {
       console.log('### Updating...');
       tx.executeSql(
-        'UPDATE FamilyMember SET name = ?, initials = ? WHERE id = ?',
-        [this.state.member.name, this.state.member.initials, this.state.member.initials],
+        'UPDATE FamilyMember SET name = ?, initials = ?, phone = ?, skinType = ? WHERE id = ?',
+        [
+          this.state.member.name, 
+          this.state.member.initials,
+          this.state.member.phone, 
+          this.state.member.skinType,
+          this.state.member.id
+        ],
         this.successCB,
         this.errorCB
       );
     })
   }
-
-  deleteData = () => {
-    db.transaction((tx) => {
-      console.log('### Deleting...');
-      tx.executeSql(
-        'DELETE FROM FamilyMember WHERE id = ?',
-        [this.state.member.id],
-        this.successCB,
-        this.errorCB
-      );
-    })
-  }
-
-  closeDatabase = () => {
-      if (db) {
-          console.log('### Closing database...');
-          db.close(this.successCB, this.errorCB);
-      } else {
-          console.log('### Database was not opened');
-      }
-  }
-
 
   render() {
-    console.log('%%%%% RENDER');
-
     return(
       <View>
+        <ActivityIndicator animating={mid !== -1 && this.state.member.id === -1} />
         <Text style={{fontSize: 30}}>EditMemberScreen</Text>
         <View>
           <Text>Name:</Text>
@@ -155,10 +126,10 @@ class EditMemberScreen extends Component {
         </View>
         <View style={styles.buttonPanel} >
           <Button raised primary icon="done" text="Save"
-            onPress={() => console.log('save')}
+            onPress={this.save}
           />
           <Button raised accent icon="cancel" text="Cancel"
-            onPress={() => console.log('cancel')}
+            onPress={() => this.props.navigation.goBack()}
           />
         </View>
       </View>
