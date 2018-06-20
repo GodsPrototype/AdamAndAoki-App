@@ -11,7 +11,7 @@ class GaugeComponent extends Component {
         return (
           <TouchableHighlight onPress={() => openWeather()}>
             <View style={styles.view}>
-              <Text style={styles.text}>{value}</Text>
+              <Text style={styles.text}>{Math.round(value)}</Text>
               <AnimatedGaugeProgress
                 size={200}
                 width={15}
