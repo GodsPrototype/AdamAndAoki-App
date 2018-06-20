@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, FlatList, Dimensions} from 'react-native';
 import {ActionButton} from 'react-native-material-ui';
-import EditMemberScreen from './EditMemberScreen';
-import ViewMemberScreen from './ViewMemberScreen';
 import MemberCard from './MemberCard';
 import SQLite from 'react-native-sqlite-storage';
 
@@ -46,7 +44,7 @@ class FamilyScreen extends Component {
     queryData = () => {
         db.transaction((tx) => {
             console.log('### Querying...');
-            tx.executeSql('SELECT * FROM FamilyMember', [], (tx, results) => {
+            tx.executeSql('SELECT id, name, initials, image FROM FamilyMember', [], (tx, results) => {
                 console.log('### Query completed');
                 this.setState({familyMembers: results.rows.raw()});
             }, this.errorCB);
@@ -62,6 +60,11 @@ class FamilyScreen extends Component {
         }
     }
 
+    // To refresh the family screen when we modify data and come back
+    goBackFunction = () => {
+        this.queryData();
+    }
+
     // Render helper methods
     renderMemberItem = ({ item }) => (
         <MemberCard
@@ -69,7 +72,10 @@ class FamilyScreen extends Component {
             name={item.name}
             initials={item.initials}
             image={item.image}
-            onPress={() => this.props.navigation.navigate('EditMember', {id: item.id})}
+            onPress={() => this.props.navigation.navigate(
+                'ViewMember', 
+                {id: item.id, beforeBack: this.goBackFunction, database: db}
+            )}
         />
     );
 
@@ -81,9 +87,6 @@ class FamilyScreen extends Component {
 
     }
     render() {
-        const {navigate} = this.props.navigation;
-
-        // TODO: Use Sqlite, and load users from there
         return(
             <View>
                 <Text>
@@ -97,7 +100,10 @@ class FamilyScreen extends Component {
                     />
 
                     <ActionButton
-                        onPress={() => this.props.navigation.navigate('EditMember')}
+                        onPress={() => this.props.navigation.navigate(
+                            'EditMember', 
+                            {beforeBack: this.goBackFunction, database: db}
+                        )}
                     />
             </View>
         )
