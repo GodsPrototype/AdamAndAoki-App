@@ -42,16 +42,16 @@ class HomeScreen extends Component<Props> {
         db = SQLite.openDatabase({name : 'MemberDB', createFromLocation : '~MemberDB.db'}, this.successCB, this.errorCB);
     }
 
-    insertData = () => {
+    updateExposureTimes = () => {
       db.transaction((tx) => {
-        console.log('### Inserting...');
+        console.log('### Updating...');
         rec = this.state.recommendations;
 
         for (let k in rec) {
           console.log("key " + k + " and value: " + rec[k] + " type " + typeof rec[k]);
           tx.executeSql(
-            'INSERT INTO ExposureTimes (skin_type, exposure_time) VALUES (?, ?)',
-            [k, rec[k]],
+            'UPDATE exposuretimes SET exposure_time = ? WHERE skin_type = ?',
+            [rec[k], k],
             this.successCB,
             this.errorCB
           );
@@ -79,7 +79,7 @@ class HomeScreen extends Component<Props> {
                     uv: res.data.result.uv,
                     recommendations: res.data.result.safe_exposure_time
                 });
-                this.insertData();
+                this.updateExposureTimes();
             }).catch((error) => {
                 Alert.alert(error.toString());
             });
@@ -124,7 +124,7 @@ class HomeScreen extends Component<Props> {
     render() {
         return(
             <View>
-                <Text style={styles.title}>HomeScreen</Text>
+                <Text style={styles.title}>Dashboard</Text>
                 <UVGaugeComponent enableButton={false} value={this.state.uv}  />
                 <TempGaugeComponent enableButton={true} openWeather={this.openWeather.bind(this)} value={this.state.temp} />
             </View>

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, FlatList, Dimensions} from 'react-native';
-import {ActionButton} from 'react-native-material-ui';
+import {ActionButton, Toolbar} from 'react-native-material-ui';
 import MemberCard from './MemberCard';
 import SQLite from 'react-native-sqlite-storage';
 
@@ -86,9 +86,24 @@ class FamilyScreen extends Component {
         return Math.trunc(Dimensions.get('window').width / 100);
 
     }
+
+    onButtonPress = (e) => {
+        console.log(e);
+        switch(e) {
+            case "main-button":
+                break;
+            case "add":
+                this.props.navigation.navigate('EditMember', {beforeBack: this.goBackFunction, database: db});
+                break;
+            case "send":
+                console.log('send');
+                break;
+        }
+    }
+
     render() {
         return(
-            <View>
+            <View style={styles.containerStyle}>
                 <Text>
                     FamilyScreen
                 </Text>
@@ -98,13 +113,14 @@ class FamilyScreen extends Component {
                     keyExtractor={this.keyExtractor}
                     numColumns={this.getColumnCount()}
                     />
-
+                <View style={styles.containerStyle}>
                     <ActionButton
-                        onPress={() => this.props.navigation.navigate(
-                            'EditMember',
-                            {beforeBack: this.goBackFunction, database: db}
-                        )}
-                    />
+                        actions={[{icon: 'add', label: 'Add Family Member', name: 'add'},{icon: 'send', label: 'Send Notifications', name: 'send'}]}
+                        onPress={(e) => this.onButtonPress(e)}
+                        transition="speedDial"
+                        icon="share"
+                        />
+                </View>
             </View>
         )
     }
@@ -112,8 +128,10 @@ class FamilyScreen extends Component {
 
 const styles = StyleSheet.create({
     containerStyle: {
-        flex: 1,
-        alignItems: 'center'
+        flex: 1
+    },
+    bottomNavStyle: {
+        position: 'absolute'
     }
 });
 
