@@ -45,7 +45,12 @@ const RootStack = createStackNavigator(
       })
     },
     Home: { screen: HomeScreen },
-    Weather: { screen: WeatherScreen },
+    Weather: {
+      screen: WeatherScreen ,
+      navigationOptions: () => ({
+        header: null
+      })
+    },
     Family: { screen: FamilyScreen },
     EditMember: { screen: EditMemberScreen },
     ViewMember: { screen: ViewMemberScreen },

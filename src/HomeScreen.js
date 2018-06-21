@@ -133,10 +133,7 @@ class HomeScreen extends Component<Props> {
 }
 
 const styles = StyleSheet.create({
-    title: {
-        justifyContent: 'center',
-        alignItems: 'center'
-    }
+
 });
 
 export default HomeScreen;
