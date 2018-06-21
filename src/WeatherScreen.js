@@ -9,10 +9,11 @@ class WeatherScreen extends Component {
 
   componentWillMount() {
     navigator.geolocation.getCurrentPosition((pos) => {
-      const lat = pos.coords.latitude.toFixed(2);
-      const long = pos.coords.longitude.toFixed(2);
+      let lat = pos.coords.latitude.toFixed(5);
+      let long = pos.coords.longitude.toFixed(5);
 
-      let url = "https://gadgets.buienradar.nl/gadget/zoommap/?lat=" + lat.toString() + "&lng=" + long.toString() + "&overname=2&zoom=13";
+      let url = "https://gadgets.buienradar.nl/gadget/zoommap/?lat=" + lat.toString() + "&lng=" + long.toString() + "&overname=2&zoom=13&size=2b&voor=1";
+      console.log(url);
       this.setState({ uri: url});
     });
   }
