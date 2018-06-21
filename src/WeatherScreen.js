@@ -1,10 +1,36 @@
 import React, {Component} from 'react';
-import {View, Text, WebView, StyleSheet} from 'react-native';
+import {View, Text, WebView, StyleSheet, Alert} from 'react-native';
 import {Toolbar} from 'react-native-material-ui';
+import axios from 'axios';
 
 class WeatherScreen extends Component {
   state = {
-    uri: null
+    uri: null,
+
+  }
+
+  fetchWeatherData() {
+
+    navigator.geolocation.getCurrentPosition((pos) => {
+      let lat = pos.coords.latitude.toFixed(5);
+      let long = pos.coords.longitude.toFixed(5);
+
+      const request = axios.create({
+        baseURL: "http://samples.openweathermap.org/data/2.5/forecast",
+        timeout: 1000,
+        params: {
+          lat: lat,
+          lon: long,
+          APPID: 'cd88704cd0416236441a1a1a7e9d6b31'
+        }
+      });
+
+      request.get().then((res) => {
+
+      })
+    }, (err) => {
+      Alert.alert(err.toString());
+    });
   }
 
   componentWillMount() {
