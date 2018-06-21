@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {View, Text, TextInput, StyleSheet, Picker, ActivityIndicator} from 'react-native';
-import {ActionButton, Button} from 'react-native-material-ui';
+import {View, Text, TextInput, StyleSheet, Picker} from 'react-native';
+import {Button} from 'react-native-material-ui';
 import SQLite from 'react-native-sqlite-storage';
 
 SQLite.DEBUG(true);
@@ -12,10 +12,10 @@ class EditMemberScreen extends Component {
     super();
     this.state = {
       member: {
-        id: mid,
+        id: -1,
         name: '',
         initials: '',
-        skinType: '',
+        skinType: 'st1',
         phone: ''
       }
     }
@@ -25,7 +25,6 @@ class EditMemberScreen extends Component {
     // Save the id in a local variable mid, because the state will take some time to set up completely
     mid = this.props.navigation.getParam('id', -1);
     db = this.props.navigation.getParam('database');
-    this.setState({member: {...this.state.member, id: mid}});
     this.queryData();
   }
 
@@ -43,22 +42,17 @@ class EditMemberScreen extends Component {
     if(mid !== -1){
       db.transaction((tx) => {
         console.log('### Querying...');
-        tx.executeSql('SELECT * FROM FamilyMember WHERE id = ?', [mid], (tx, results) => {
+        tx.executeSql(
+          'SELECT * FROM FamilyMember JOIN exposuretimes ON skinType = skin_type WHERE id = ?', 
+          [mid], 
+          (tx, results) => {
             console.log('### Query completed');
             this.setState({member: results.rows.item(0)});
-        }, this.errorCB);
+          }, 
+          this.errorCB
+        );
       });
     }
-  }
-
-  save = () => {
-    if(this.state.member.id === -1){
-      this.insertData();
-    } else {
-      this.updateData();
-    }
-    this.props.navigation.state.params.beforeBack();
-    this.props.navigation.goBack();
   }
 
   insertData = () => {
@@ -66,7 +60,12 @@ class EditMemberScreen extends Component {
       console.log('### Inserting...');
       tx.executeSql(
         'INSERT INTO FamilyMember (name, initials, phone, skinType) VALUES (?, ?, ?, ?)',
-        [this.state.member.name, this.state.member.initials, this.state.member.phone, this.state.member.skinType],
+        [
+          this.state.member.name,
+          this.state.member.initials,
+          this.state.member.phone,
+          this.state.member.skinType
+        ],
         this.successCB,
         this.errorCB
       );
@@ -91,11 +90,37 @@ class EditMemberScreen extends Component {
     })
   }
 
+  deleteData = () => {
+    db.transaction((tx) => {
+      console.log('### Deleting...');
+      tx.executeSql(
+        'DELETE FROM FamilyMember WHERE id = ?',
+        [this.state.member.id],
+        this.successCB,
+        this.errorCB
+      );
+    })
+  }
+
+  save = () => {
+    if(this.state.member.id === -1){
+      this.insertData();
+    } else {
+      this.updateData();
+    }
+    this.props.navigation.state.params.beforeBack(this.state.member);
+    this.props.navigation.goBack();
+  }
+
+  delete = () => {
+    this.deleteData();
+    this.props.navigation.state.params.beforeBack();
+    this.props.navigation.navigate('Swipeable');
+  }
+
   render() {
     return(
-      <View>
-        <ActivityIndicator animating={mid !== -1 && this.state.member.id === -1} />
-        <Text style={{fontSize: 30}}>EditMemberScreen</Text>
+      <View style={styles.container}>
         <View>
           <Text>Name:</Text>
           <TextInput
@@ -119,17 +144,23 @@ class EditMemberScreen extends Component {
           <Picker
               selectedValue={this.state.member.skinType}
               onValueChange={(itemValue, itemPosition) => this.setState({member: {...this.state.member, skinType: itemValue}})} >
-            <Picker.Item label="Light" value={1} />
-            <Picker.Item label="Medium" value={3} />
-            <Picker.Item label="Dark" value={6} />
+            <Picker.Item label="Very Light" value="st1" />
+            <Picker.Item label="Light" value="st2" />
+            <Picker.Item label="Light-Medium" value="st3" />
+            <Picker.Item label="Medium" value="st4" />
+            <Picker.Item label="Medium-Dark" value="st5" />
+            <Picker.Item label="Dark" value="st6" />
           </Picker>
         </View>
         <View style={styles.buttonPanel} >
-          <Button raised primary icon="done" text="Save"
-            onPress={this.save}
-          />
           <Button raised accent icon="cancel" text="Cancel"
             onPress={() => this.props.navigation.goBack()}
+          />
+          <Button raised accent disabled={this.state.member.id === -1} icon="delete" text="Delete"
+            onPress={this.delete}
+          />
+          <Button raised primary icon="done" text="Save"
+            onPress={this.save}
           />
         </View>
       </View>
@@ -141,6 +172,9 @@ const styles = StyleSheet.create({
   buttonPanel: {
     flexDirection: "row",
     justifyContent: "space-evenly"
+  },
+  container: {
+    padding: 10
   }
 })
 

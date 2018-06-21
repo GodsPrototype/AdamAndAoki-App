@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {View, Text, Button, Alert, StyleSheet} from 'react-native';
 import {Toolbar} from 'react-native-material-ui';
 import axios from 'axios';
-import GaugeComponent from './GaugeComponent';
 import UVGaugeComponent from './UVGaugeComponent';
 import TempGaugeComponent from './TempGaugeComponent';
 import SQLite from 'react-native-sqlite-storage';
@@ -21,7 +20,7 @@ class HomeScreen extends Component<Props> {
     }
 
     componentWillMount() {
-        this.openDatabase();
+        db = this.props.database;
         this.fetchUV();
         this.fetchTemp();
     }
@@ -34,12 +33,6 @@ class HomeScreen extends Component<Props> {
 
     successCB = () => {
         console.log('### Done.');
-    }
-
-    openDatabase = () => {
-        // Load database from existing file
-        console.log('### Opening database...');
-        db = SQLite.openDatabase({name : 'MemberDB', createFromLocation : '~MemberDB.db'}, this.successCB, this.errorCB);
     }
 
     updateExposureTimes = () => {

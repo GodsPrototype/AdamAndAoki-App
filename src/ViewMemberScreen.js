@@ -1,105 +1,90 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Linking} from 'react-native';
 import {Button, Divider} from 'react-native-material-ui';
-import SQLite from 'react-native-sqlite-storage';
-
-SQLite.DEBUG(true);
-SQLite.enablePromise(false);
-let db, mid = -1;
 
 class ViewMemberScreen extends Component {
-    constructor(){
-        super();
-        this.state = {
-            member: {
-                id: -1,
-                name: '',
-                initials: '',
-                phone: '',
-                skinType: 1
-            }
-        }
-    }
-
-    componentWillMount = () => {
-        mid = this.props.navigation.getParam('id', -1);
-        db = this.props.navigation.getParam('database');
-        this.setState({member: {...this.state.member, id: mid}});
-        this.queryData();
-    }
-
-    errorCB = (err) => {
-        console.log('### Error: ' + err.message)
-        return false;
-    }
-
-    successCB = () => {
-        console.log('### Done.');
-    }
-
-    queryData = () => {
-      if(mid !== -1){
-        db.transaction((tx) => {
-          console.log('### Querying...');
-          tx.executeSql('SELECT * FROM FamilyMember WHERE id = ?', [mid], (tx, results) => {
-              console.log('### Query completed');
-              this.setState({member: results.rows.item(0)});
-          }, this.errorCB);
-        });
-      }
-    }
-
-    deleteData = () => {
-      db.transaction((tx) => {
-        console.log('### Deleting...');
-        tx.executeSql(
-          'DELETE FROM FamilyMember WHERE id = ?',
-          [this.state.member.id],
-          this.successCB,
-          this.errorCB
-        );
-      })
-    }
-
-    goBackFunction = () => {
+    goBackFunction = (member) => {
         this.props.navigation.state.params.beforeBack();
-        this.queryData();
+        if(member){
+            this.props.navigation.setParams({member});
+            this.forceUpdate();
+        }
     }
 
     edit = () => {
         this.props.navigation.navigate(
             'EditMember',
-            {id: this.state.member.id, beforeBack: this.goBackFunction, database: db}
+            {
+                id: this.props.navigation.getParam('member').id,
+                beforeBack: this.goBackFunction,
+                database: this.props.navigation.getParam('database')
+            }
         );
     }
 
-    delete = () => {
-        this.deleteData();
-        this.props.navigation.state.params.beforeBack();
-        this.props.navigation.goBack();
+    send = () => {
+        Linking.openURL('whatsapp://send?text=hello&phone=' + this.props.navigation.getParam('member').phone);
     }
 
     render() {
+        const {member} = this.props.navigation.state.params;
+
+        formatSkinType = (skinType) => {
+            switch(skinType){
+                case "st1":
+                    return "Very Light";
+                case "st2":
+                    return "Light";
+                case "st3":
+                    return "Light-Medium";
+                case "st4":
+                    return "Medium";
+                case "st5":
+                    return "Medium-Dark";
+                case "st6":
+                    return "Dark";
+                default:
+                    return "Undefined";
+            }
+        }
+
+        formatTime = (time) => {
+            if(time === null){
+                return "no UV threat.";
+            }
+            hours = Math.trunc(time/60);
+            timeString = '';
+            if(hours > 0){
+                timeString += hours + 'h and ';
+            }
+            timeString += (time - hours*60) + 'mins';
+            return timeString;
+        }
+
         return(
-            <View>
-                <Text style={{fontSize: 30}}>ViewMemberScreen</Text>
+            <View style={styles.containerStyle}>
                 <View>
-                    <Text>Name:</Text>
-                    <Text>{this.state.member.name}</Text>
-                    <Text>Initials:</Text>
-                    <Text>{this.state.member.initials}</Text>
-                    <Text>Phone number:</Text>
-                    <Text>{this.state.member.phone}</Text>
-                    <Text>Skin type:</Text>
-                    <Text>{this.state.member.skinType}</Text>
+                    <Text style={styles.labelStyle}>Name:
+                        <Text style={styles.textStyle}>{member.name}</Text>
+                    </Text>
+                    <Text style={styles.labelStyle}>Initials:
+                        <Text style={styles.textStyle}>{member.initials}</Text>
+                    </Text>
+                    <Text style={styles.labelStyle}>Phone number:
+                        <Text style={styles.textStyle}>{member.phone}</Text>
+                    </Text>
+                    <Text style={styles.labelStyle}>Skin type:
+                        <Text style={styles.textStyle}>{formatSkinType(member.skinType)}</Text>
+                    </Text>
                 </View>
-                <Divider />
+                <Divider style={{container: styles.dividerStyle}} />
                 <View>
-                    <Text>Reccommendations:</Text>
+                    <Text style={styles.labelStyle}>Safe sun exposure time: {formatTime(member.exposure_time)}</Text>
                 </View>
+                <Divider style={{container: styles.dividerStyle}} />
                 <View style={styles.buttonPanel} >
-                    <Button raised accent icon="delete" text="Delete"
-                        onPress={this.delete}
+                    <Button raised disabled={member.phone === ''} icon="send" text="Send"
+                        onPress={this.send}
                     />
                     <Button raised primary icon="edit" text="Edit"
                         onPress={this.edit}
@@ -114,6 +99,19 @@ const styles = StyleSheet.create({
   buttonPanel: {
     flexDirection: "row",
     justifyContent: "space-evenly"
+  },
+  containerStyle: {
+      padding: 15
+  },
+  textStyle: {
+      fontSize: 20
+  },
+  dividerStyle: {
+      marginTop: 5,
+      marginBottom: 5
+  },
+  labelStyle: {
+      fontSize: 16
   }
 })
 

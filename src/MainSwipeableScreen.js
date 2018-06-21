@@ -1,15 +1,41 @@
 import React, {Component} from 'react';
-import {View, Text, ViewPagerAndroid} from 'react-native';
+import {View, ViewPagerAndroid} from 'react-native';
 import {BottomNavigation} from 'react-native-material-ui';
 import HomeScreen from './HomeScreen';
 import AboutScreen from './AboutScreen';
 import FamilyScreen from './FamilyScreen';
+import SQLite from 'react-native-sqlite-storage';
+
+SQLite.DEBUG(true);
+SQLite.enablePromise(false);
+let db;
 
 
 type Props = {};
 class MainSwipeableScreen extends Component<Props> {
   state = {
     currentPage: "0"
+  }
+
+  componentWillMount = () => {
+    console.log('### Opening database...');
+    db = SQLite.openDatabase(
+      {name : 'MemberDB', createFromLocation : '~MemberDB.db'}, 
+      () => console.log('### Done.'), 
+      (err) => console.log('### Error: ' + err.message)
+    );
+  }
+
+  componentWillUnmount = () => {
+    if (db) {
+      console.log('### Closing database...');
+      db.close(
+        () => console.log('### Done.'),
+        (err) => console.log('### Error: ' + err.message)
+      );
+    } else {
+      console.log('### Database was not opened');
+    }
   }
 
   onPageSelect = e => {
@@ -32,10 +58,10 @@ class MainSwipeableScreen extends Component<Props> {
                 ref='viewPage'
                 >
                 <View key="0">
-                    <HomeScreen {...this.props}/>
+                    <HomeScreen {...this.props} database={db}/>
                 </View>
                 <View key="1">
-                    <FamilyScreen {...this.props}/>
+                    <FamilyScreen {...this.props} database={db}/>
                 </View>
                 <View key="2">
                     <AboutScreen {...this.props}/>

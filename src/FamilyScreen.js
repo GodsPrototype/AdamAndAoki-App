@@ -2,11 +2,6 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet, FlatList, Dimensions} from 'react-native';
 import {ActionButton, Toolbar} from 'react-native-material-ui';
 import MemberCard from './MemberCard';
-import SQLite from 'react-native-sqlite-storage';
-
-SQLite.DEBUG(true);
-SQLite.enablePromise(false);
-let db;
 
 class FamilyScreen extends Component {
     constructor() {
@@ -17,12 +12,8 @@ class FamilyScreen extends Component {
     }
 
     componentWillMount = () => {
-        this.openDatabase();
+        db = this.props.database;
         this.queryData();
-    }
-
-    componentWillUnmount = () => {
-        this.closeDatabase();
     }
 
     // SQL methods
@@ -35,29 +26,19 @@ class FamilyScreen extends Component {
         console.log('### Done.');
     }
 
-    openDatabase = () => {
-        // Load database from existing file
-        console.log('### Opening database...');
-        db = SQLite.openDatabase({name : 'MemberDB', createFromLocation : '~MemberDB.db'}, this.successCB, this.errorCB);
-    }
-
     queryData = () => {
         db.transaction((tx) => {
             console.log('### Querying...');
-            tx.executeSql('SELECT id, name, initials, image FROM FamilyMember', [], (tx, results) => {
-                console.log('### Query completed');
-                this.setState({familyMembers: results.rows.raw()});
-            }, this.errorCB);
+            tx.executeSql(
+                'SELECT * FROM FamilyMember JOIN exposuretimes ON skinType = skin_type',
+                [],
+                (tx, results) => {
+                    console.log('### Query completed');
+                    this.setState({familyMembers: results.rows.raw()});
+                },
+                this.errorCB
+            );
         });
-    }
-
-    closeDatabase = () => {
-        if (db) {
-            console.log('### Closing database...');
-            db.close(this.successCB, this.errorCB);
-        } else {
-            console.log('### Database was not opened');
-        }
     }
 
     // To refresh the family screen when we modify data and come back
@@ -74,7 +55,7 @@ class FamilyScreen extends Component {
             image={item.image}
             onPress={() => this.props.navigation.navigate(
                 'ViewMember',
-                {id: item.id, beforeBack: this.goBackFunction, database: db}
+                {member: item, beforeBack: this.goBackFunction, database: db}
             )}
         />
     );
