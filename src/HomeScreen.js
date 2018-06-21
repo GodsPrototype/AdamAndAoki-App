@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, Button, Alert, StyleSheet} from 'react-native';
-// import {Card} from 'react-native-material-ui';
+import {Toolbar} from 'react-native-material-ui';
 import axios from 'axios';
 import GaugeComponent from './GaugeComponent';
 import UVGaugeComponent from './UVGaugeComponent';
@@ -124,7 +124,7 @@ class HomeScreen extends Component<Props> {
     render() {
         return(
             <View>
-                <Text style={styles.title}>Dashboard</Text>
+              <Toolbar centerElement="Dashboard" />
                 <UVGaugeComponent enableButton={false} value={this.state.uv}  />
                 <TempGaugeComponent enableButton={true} openWeather={this.openWeather.bind(this)} value={this.state.temp} />
             </View>

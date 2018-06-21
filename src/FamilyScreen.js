@@ -104,35 +104,39 @@ class FamilyScreen extends Component {
     render() {
         return(
             <View style={styles.containerStyle}>
-                <Text>
-                    FamilyScreen
-                </Text>
+              <Toolbar centerElement="My Family" />
+              <View style={styles.listStyle}>
                 <FlatList
                     data={this.state.familyMembers}
                     renderItem={this.renderMemberItem}
                     keyExtractor={this.keyExtractor}
                     numColumns={this.getColumnCount()}
                     />
-                <View style={styles.containerStyle}>
-                    <ActionButton
-                        actions={[{icon: 'add', label: 'Add Family Member', name: 'add'},{icon: 'send', label: 'Send Notifications', name: 'send'}]}
-                        onPress={(e) => this.onButtonPress(e)}
-                        transition="speedDial"
-                        icon="share"
-                        />
-                </View>
+              </View>
+              <View style={styles.bottomNavStyle}>
+                  <ActionButton
+                      actions={[{icon: 'add', label: 'Add Family Member', name: 'add'},{icon: 'send', label: 'Send Notifications', name: 'send'}]}
+                      onPress={(e) => this.onButtonPress(e)}
+                      transition="speedDial"
+                      icon="share"
+                      />
+              </View>
             </View>
         )
     }
 }
 
 const styles = StyleSheet.create({
-    containerStyle: {
-        flex: 1
-    },
-    bottomNavStyle: {
-        position: 'absolute'
-    }
+  containerStyle: {
+    flex: 1
+  },
+  listStyle: {
+    flex: 0,
+    alignItems: 'center'
+  },
+  bottomNavStyle: {
+    flex: 1
+  }
 });
 
 export default FamilyScreen;

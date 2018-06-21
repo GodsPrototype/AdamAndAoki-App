@@ -38,7 +38,12 @@ const uiTheme = {
 const RootStack = createStackNavigator(
   {
     Intro: { screen: IntroScreen },
-    Swipeable: { screen: MainSwipeableScreen },
+    Swipeable: {
+      screen: MainSwipeableScreen,
+      navigationOptions: () => ({
+        header: null
+      })
+    },
     Home: { screen: HomeScreen },
     Weather: { screen: WeatherScreen },
     Family: { screen: FamilyScreen },
