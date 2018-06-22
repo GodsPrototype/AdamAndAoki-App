@@ -64,7 +64,6 @@ class HomeScreen extends Component<Props> {
         rec = this.state.recommendations;
 
         for (let k in rec) {
-          console.log("key " + k + " and value: " + rec[k] + " type " + typeof rec[k]);
           tx.executeSql(
             'UPDATE exposuretimes SET exposure_time = ? WHERE skin_type = ?',
             [rec[k], k],
