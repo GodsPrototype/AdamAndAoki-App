@@ -43,12 +43,12 @@ class EditMemberScreen extends Component {
       db.transaction((tx) => {
         console.log('### Querying...');
         tx.executeSql(
-          'SELECT * FROM FamilyMember JOIN exposuretimes ON skinType = skin_type WHERE id = ?',
-          [mid],
+          'SELECT * FROM FamilyMember JOIN exposuretimes ON skinType = skin_type WHERE id = ?', 
+          [mid], 
           (tx, results) => {
             console.log('### Query completed');
             this.setState({member: results.rows.item(0)});
-          },
+          }, 
           this.errorCB
         );
       });
@@ -154,17 +154,19 @@ class EditMemberScreen extends Component {
           </View>
           <View style={styles.inputContainerStyle} >
             <Text style={styles.labelStyle}>Skin type:</Text>
-            <Picker
-                style={styles.pickerStyle}
-                selectedValue={this.state.member.skinType}
-                onValueChange={(itemValue, itemPosition) => this.setState({member: {...this.state.member, skinType: itemValue}})} >
-              <Picker.Item label="Very Light" value="st1" />
-              <Picker.Item label="Light" value="st2" />
-              <Picker.Item label="Light-Medium" value="st3" />
-              <Picker.Item label="Medium" value="st4" />
-              <Picker.Item label="Medium-Dark" value="st5" />
-              <Picker.Item label="Dark" value="st6" />
-            </Picker>
+            <View style={styles.pickerContainerStyle}>
+              <Picker
+                  style={styles.pickerStyle}
+                  selectedValue={this.state.member.skinType}
+                  onValueChange={(itemValue, itemPosition) => this.setState({member: {...this.state.member, skinType: itemValue}})} >
+                <Picker.Item label="Very Light" value="st1" />
+                <Picker.Item label="Light" value="st2" />
+                <Picker.Item label="Light-Medium" value="st3" />
+                <Picker.Item label="Medium" value="st4" />
+                <Picker.Item label="Medium-Dark" value="st5" />
+                <Picker.Item label="Dark" value="st6" />
+              </Picker>
+            </View>
           </View>
         </View>
         <View style={styles.buttonPanel} >
@@ -185,8 +187,9 @@ class EditMemberScreen extends Component {
 
 const styles = StyleSheet.create({
   buttonPanel: {
-    flexDirection: "row",
-    justifyContent: "space-evenly"
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    marginTop: 20
   },
   container: {
     padding: 10
@@ -207,6 +210,12 @@ const styles = StyleSheet.create({
   labelStyle: {
     fontSize: 14,
     color: 'black'
+  },
+  pickerContainerStyle: {
+    borderColor: 'green',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderRadius: 5,
   }
 })
 
