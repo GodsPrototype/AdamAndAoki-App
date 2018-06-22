@@ -6,22 +6,22 @@ import { AnimatedGaugeProgress, GaugeProgress } from 'react-native-simple-gauge'
 class GaugeComponent extends Component {
 
     render() {
-        const {value, openWeather, key} = this.props;
+        const {value} = this.props;
 
         return (
-          <View style={styles.view}>
-            <Text style={styles.text}>{Math.round(value)}</Text>
-            <AnimatedGaugeProgress
-              size={200}
-              width={15}
-              fill={(value/11)*100}
-              rotation={90}
-              cropDegree={90}
-              tintColor="#4682b4"
-              backgroundColor="#b0c4de"
-              stroke={[2, 2]} //For a equaly dashed line
-              strokeCap="circle" />
-          </View>
+          <Card>
+            <View style={styles.view}>
+              <Text style={styles.text}>{Math.round(value)}</Text>
+              <AnimatedGaugeProgress
+                size={200}
+                width={15}
+                fill={(value/11)*100}
+                rotation={90}
+                cropDegree={90}
+                tintColor="#4682b4"
+                backgroundColor="#b0c4de" />
+            </View>
+          </Card>
         )
     };
 }

@@ -1,36 +1,11 @@
 import React, {Component} from 'react';
 import {View, Text, WebView, StyleSheet, Alert} from 'react-native';
-import {Toolbar} from 'react-native-material-ui';
+import {Toolbar, Card, Subheader, Divider} from 'react-native-material-ui';
 import axios from 'axios';
 
 class WeatherScreen extends Component {
   state = {
-    uri: null,
-
-  }
-
-  fetchWeatherData() {
-
-    navigator.geolocation.getCurrentPosition((pos) => {
-      let lat = pos.coords.latitude.toFixed(5);
-      let long = pos.coords.longitude.toFixed(5);
-
-      const request = axios.create({
-        baseURL: "http://samples.openweathermap.org/data/2.5/forecast",
-        timeout: 1000,
-        params: {
-          lat: lat,
-          lon: long,
-          APPID: 'cd88704cd0416236441a1a1a7e9d6b31'
-        }
-      });
-
-      request.get().then((res) => {
-
-      })
-    }, (err) => {
-      Alert.alert(err.toString());
-    });
+    uri: null
   }
 
   componentWillMount() {
@@ -51,10 +26,23 @@ class WeatherScreen extends Component {
           style={{flex: 1}}
           centerElement="Weather"
         />
-        <WebView
-          source={{uri: this.state.uri}}
-          style={styles.weatherMap}
-        />
+        <Card style={styles.cardStyle}>
+          <Subheader text="Weather Radar" />
+          <View style={{ height: 256}}>
+            <WebView
+              source={{uri: this.state.uri}}
+              style={styles.weatherMap}
+            />
+          </View>
+        </Card>
+        <Divider/>
+        <Card>
+          <Subheader text="Weather Forecast"/>
+          <WebView
+            source={{uri: "https://gadgets.buienradar.nl/gadget/forecastandstation/6260"}}
+            style={styles.weatherTable}
+          />
+        </Card>
       </View>
     )
   }
@@ -62,12 +50,21 @@ class WeatherScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center'
+    alignItems: 'center',
+    flexDirection: 'column',
+    justifyContent: 'space-between'
   },
   weatherMap: {
     width: 256,
     maxHeight: 256
+  },
+  weatherTable: {
+    width: 300,
+    maxHeight: 190
+  },
+  cardStyle: {
+    flex: 1,
+    alignItems: 'center'
   }
 });
 

@@ -90,7 +90,6 @@ class HomeScreen extends Component<Props> {
             const request = axios.create({
                 baseURL: 'http://api.openweathermap.org/data/2.5/weather',
                 timeout: 1000,
-                // TODO: Get the actual location using geo location
                 params: {
                     lat: lat,
                     lon: long,
@@ -106,7 +105,9 @@ class HomeScreen extends Component<Props> {
             }).catch((err) => {
                 Alert.alert(err.toString());
             });
-        })
+        }, (err) => {
+            Alert.alert(err.toString());
+        });
     }
 
     openWeather() {
@@ -118,8 +119,8 @@ class HomeScreen extends Component<Props> {
         return(
             <View>
               <Toolbar centerElement="Dashboard" />
-                <UVGaugeComponent enableButton={false} value={this.state.uv}  />
-                <TempGaugeComponent enableButton={true} openWeather={this.openWeather.bind(this)} value={this.state.temp} />
+              <UVGaugeComponent value={this.state.uv}  />
+              <TempGaugeComponent openWeather={this.openWeather.bind(this)} value={this.state.temp} />
             </View>
         );
     }
