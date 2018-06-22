@@ -89,7 +89,7 @@ class HomeScreen extends Component<Props> {
 
             const request = axios.create({
                 baseURL: 'http://api.openweathermap.org/data/2.5/weather',
-                timeout: 1000,
+                timeout: 10000,
                 params: {
                     lat: lat,
                     lon: long,
