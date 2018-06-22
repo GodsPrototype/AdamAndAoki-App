@@ -82,25 +82,38 @@ class FamilyScreen extends Component {
         }
     }
 
+    add = () => {
+        this.props.navigation.navigate('EditMember', {beforeBack: this.goBackFunction, database: db});
+    }
+
     render() {
-        return(
-            <View style={styles.containerStyle}>
-              <Toolbar centerElement="My Family" />
-              <View style={styles.listStyle}>
+        screenContent = () => {
+            if(typeof this.state.familyMembers === 'undefined' || this.state.familyMembers.length === 0){
+                console.log('members is undefined');
+                return(
+                    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}} >
+                    <Text>Press the button below to add family members!</Text>
+                    </View>
+                );
+            }
+            return(
+                <View style={styles.listStyle}>
                 <FlatList
                     data={this.state.familyMembers}
                     renderItem={this.renderMemberItem}
                     keyExtractor={this.keyExtractor}
                     numColumns={this.getColumnCount()}
                     />
-              </View>
+                </View>
+            )
+        }
+
+        return(
+            <View style={styles.containerStyle}>
+              <Toolbar centerElement="My Family" />
+              {screenContent()}
               <View style={styles.bottomNavStyle}>
-                  <ActionButton
-                      actions={[{icon: 'add', label: 'Add Family Member', name: 'add'},{icon: 'send', label: 'Send Notifications', name: 'send'}]}
-                      onPress={(e) => this.onButtonPress(e)}
-                      transition="speedDial"
-                      icon="share"
-                      />
+                  <ActionButton icon="add" onPress={this.add} />
               </View>
             </View>
         )
