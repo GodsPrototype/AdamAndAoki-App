@@ -5,18 +5,46 @@ import axios from 'axios';
 
 class WeatherScreen extends Component {
   state = {
-    uri: null
+    uri: null,
+    list: null
   }
 
-  componentWillMount() {
-    navigator.geolocation.getCurrentPosition((pos) => {
-      let lat = pos.coords.latitude.toFixed(5);
-      let long = pos.coords.longitude.toFixed(5);
+  constructor(props) {
+    super(props);
+    this.createURI();
+  }
 
-      let url = "https://gadgets.buienradar.nl/gadget/zoommap/?lat=" + lat.toString() + "&lng=" + long.toString() + "&overname=2&zoom=13&size=2b&voor=1";
-      console.log(url);
-      this.setState({ uri: url});
+  componentDidMount() {
+    this.fetchWeatherData();
+  }
+
+  fetchWeatherData() {
+    const request = axios.create({
+      baseURL: 'http://api.openweathermap.org/data/2.5/forecast',
+      timeout: 1000,
+      params: {
+        lat: this.props.navigation.state.params.lat,
+        lon: this.props.navigation.state.params.lng,
+        APPID: 'cd88704cd0416236441a1a1a7e9d6b31'
+      }
     });
+
+    request.get().then((res) => {
+      this.setState({
+        list: res.data.list.slice(0, 5)
+      });
+    }).catch((err) => {
+      Alert.alert(err.toString());
+    });
+  }
+
+  createURI() {
+    let lat = this.props.navigation.state.params.lat;
+    let long = this.props.navigation.state.params.lng;
+
+    let url = "https://gadgets.buienradar.nl/gadget/zoommap/?lat=" + lat.toString() + "&lng=" + long.toString() + "&overname=2&zoom=13&size=2b&voor=1";
+    console.log(url);
+    this.setState({ uri: url});
   }
 
   render() {
@@ -26,7 +54,7 @@ class WeatherScreen extends Component {
           style={{flex: 1}}
           centerElement="Weather"
         />
-        <Card style={styles.cardStyle}>
+        <Card>
           <Subheader text="Weather Radar" />
           <View style={{ height: 256}}>
             <WebView
@@ -61,10 +89,6 @@ const styles = StyleSheet.create({
   weatherTable: {
     width: 300,
     maxHeight: 190
-  },
-  cardStyle: {
-    flex: 1,
-    alignItems: 'center'
   }
 });
 

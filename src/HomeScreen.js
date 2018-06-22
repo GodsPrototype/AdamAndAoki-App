@@ -16,13 +16,36 @@ class HomeScreen extends Component<Props> {
     state = {
         uv: null,
         temp: null,
-        recommendations: null
+        recommendations: null,
+        lat: null,
+        lng: null
     }
 
-    componentWillMount() {
+    constructor(props) {
+        super(props);
         db = this.props.database;
-        this.fetchUV();
-        this.fetchTemp();
+    }
+
+    componentDidMount() {
+        this.getLocation();
+    }
+
+    getLocation() {
+        navigator.geolocation.getCurrentPosition((pos) => {
+            const lat = pos.coords.latitude.toFixed(5);
+            const long = pos.coords.longitude.toFixed(5);
+
+            this.setState({
+                lat: lat,
+                lng: long
+            });
+
+            this.fetchUV();
+            this.fetchTemp();
+
+        }, (err) => {
+            Alert.alert(err.toString());
+        });
     }
 
     // SQL methods
@@ -53,66 +76,52 @@ class HomeScreen extends Component<Props> {
     }
 
     fetchUV() {
-        navigator.geolocation.getCurrentPosition((pos) => {
-            const lat = pos.coords.latitude;
-            const long = pos.coords.longitude;
+        const request = axios.create({
+            baseURL: 'https://api.openuv.io/api/v1/uv',
+            timeout: 1000,
+            params: {
+                lat: this.state.lat,
+                lng: this.state.lng
+            },
+            headers: {'x-access-token': '3bfe269e1ba5271982a206ccafaa8fa3'}
+        });
 
-            const request = axios.create({
-                baseURL: 'https://api.openuv.io/api/v1/uv',
-                timeout: 1000,
-                params: {
-                    lat: lat,
-                    lng: long
-                },
-                headers: {'x-access-token': '3bfe269e1ba5271982a206ccafaa8fa3'}
+        request.get().then((res) => {
+            this.setState({
+                uv: res.data.result.uv,
+                recommendations: res.data.result.safe_exposure_time
             });
-
-            request.get().then((res) => {
-                this.setState({
-                    uv: res.data.result.uv,
-                    recommendations: res.data.result.safe_exposure_time
-                });
-                this.updateExposureTimes();
-            }).catch((error) => {
-                Alert.alert(error.toString());
-            });
-        }, (err) => {
+            this.updateExposureTimes();
+        }).catch((err) => {
             Alert.alert(err.toString());
         });
     }
 
-    // TODO: Fetch temperature from Buienradar
     fetchTemp() {
-        navigator.geolocation.getCurrentPosition((pos) => {
-            const lat = pos.coords.latitude;
-            const long = pos.coords.longitude;
+        const request = axios.create({
+            baseURL: 'http://api.openweathermap.org/data/2.5/weather',
+            timeout: 1000,
+            params: {
+                lat: this.state.lat,
+                lon: this.state.lng,
+                APPID: 'cd88704cd0416236441a1a1a7e9d6b31'
+            }
+        });
 
-            const request = axios.create({
-                baseURL: 'http://api.openweathermap.org/data/2.5/weather',
-                timeout: 1000,
-                params: {
-                    lat: lat,
-                    lon: long,
-                    APPID: 'cd88704cd0416236441a1a1a7e9d6b31'
-                }
+        request.get().then((res) => {
+            this.setState({
+                // Converting from Kelvin to Celsius, and setting state
+                temp: res.data.main.temp - 272
             });
-
-            request.get().then((res) => {
-                this.setState({
-                    // Converting from Kelvin to Celsius, and setting state
-                    temp: res.data.main.temp - 272
-                });
-            }).catch((err) => {
-                Alert.alert(err.toString());
-            });
-        }, (err) => {
+        }).catch((err) => {
+            console.log(err);
             Alert.alert(err.toString());
         });
     }
 
     openWeather() {
         const {navigate} = this.props.navigation;
-        navigate('Weather');
+        navigate('Weather', {lat: this.state.lat, lng: this.state.lng});
     }
 
     render() {
