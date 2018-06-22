@@ -11,31 +11,10 @@ class WeatherScreen extends Component {
 
   constructor(props) {
     super(props);
-    this.createURI();
   }
 
   componentDidMount() {
-    this.fetchWeatherData();
-  }
-
-  fetchWeatherData() {
-    const request = axios.create({
-      baseURL: 'http://api.openweathermap.org/data/2.5/forecast',
-      timeout: 1000,
-      params: {
-        lat: this.props.navigation.state.params.lat,
-        lon: this.props.navigation.state.params.lng,
-        APPID: 'cd88704cd0416236441a1a1a7e9d6b31'
-      }
-    });
-
-    request.get().then((res) => {
-      this.setState({
-        list: res.data.list.slice(0, 5)
-      });
-    }).catch((err) => {
-      Alert.alert(err.toString());
-    });
+    this.createURI();
   }
 
   createURI() {
@@ -43,7 +22,6 @@ class WeatherScreen extends Component {
     let long = this.props.navigation.state.params.lng;
 
     let url = "https://gadgets.buienradar.nl/gadget/zoommap/?lat=" + lat.toString() + "&lng=" + long.toString() + "&overname=2&zoom=13&size=2b&voor=1";
-    console.log(url);
     this.setState({ uri: url});
   }
 
