@@ -9,7 +9,7 @@ class GaugeComponent extends Component {
         const {value} = this.props;
 
         return (
-          <Card>
+          <Card style={{width: 300}}>
             <View style={styles.view}>
               <Text style={styles.text}>{Math.round(value)}</Text>
               <AnimatedGaugeProgress
@@ -20,6 +20,7 @@ class GaugeComponent extends Component {
                 cropDegree={90}
                 tintColor="#4682b4"
                 backgroundColor="#b0c4de" />
+              <Text>UV Index</Text>
             </View>
           </Card>
         )

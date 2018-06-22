@@ -9,9 +9,9 @@ class GaugeComponent extends Component {
         const {value, openWeather} = this.props;
 
         return (
-          <Card onPress={() => openWeather()}>
+          <Card style={{width: 300}} onPress={() => openWeather()}>
             <View style={styles.view}>
-              <Text style={styles.text}>{Math.round(value)}</Text>
+              <Text style={styles.text}>{Math.round(value) + "°C"}</Text>
               <AnimatedGaugeProgress
                 size={200}
                 width={15}
@@ -20,6 +20,7 @@ class GaugeComponent extends Component {
                 cropDegree={90}
                 tintColor="#4682b4"
                 backgroundColor="#b0c4de" />
+              <Text>Temperature</Text>
             </View>
           </Card>
         )
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
     position: 'absolute'
   },
   cardStyle: {
-
+    
   }
 });
 
