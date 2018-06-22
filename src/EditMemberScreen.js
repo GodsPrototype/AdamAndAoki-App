@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, TextInput, StyleSheet, Picker} from 'react-native';
-import {Button} from 'react-native-material-ui';
+import {Button, Card} from 'react-native-material-ui';
 import SQLite from 'react-native-sqlite-storage';
 
 SQLite.DEBUG(true);
@@ -43,12 +43,12 @@ class EditMemberScreen extends Component {
       db.transaction((tx) => {
         console.log('### Querying...');
         tx.executeSql(
-          'SELECT * FROM FamilyMember JOIN exposuretimes ON skinType = skin_type WHERE id = ?', 
-          [mid], 
+          'SELECT * FROM FamilyMember JOIN exposuretimes ON skinType = skin_type WHERE id = ?',
+          [mid],
           (tx, results) => {
             console.log('### Query completed');
             this.setState({member: results.rows.item(0)});
-          }, 
+          },
           this.errorCB
         );
       });
@@ -122,35 +122,50 @@ class EditMemberScreen extends Component {
     return(
       <View style={styles.container}>
         <View>
-          <Text>Name:</Text>
-          <TextInput
-            placeholder="Jane"
-            onChangeText={(text) => this.setState({member: {...this.state.member, name: text}})}
-            value={this.state.member.name}
-          />
-          <Text>Initials:</Text>
-          <TextInput
-            placeholder="J"
-            onChangeText={(text) => this.setState({member: {...this.state.member, initials: text}})}
-            value={this.state.member.initials}
-          />
-          <Text>Phone number:</Text>
-          <TextInput
-            placeholder="+123456789"
-            onChangeText={(text) => this.setState({member: {...this.state.member, phone: text}})}
-            value={this.state.member.phone}
-          />
-          <Text>Skin type:</Text>
-          <Picker
-              selectedValue={this.state.member.skinType}
-              onValueChange={(itemValue, itemPosition) => this.setState({member: {...this.state.member, skinType: itemValue}})} >
-            <Picker.Item label="Very Light" value="st1" />
-            <Picker.Item label="Light" value="st2" />
-            <Picker.Item label="Light-Medium" value="st3" />
-            <Picker.Item label="Medium" value="st4" />
-            <Picker.Item label="Medium-Dark" value="st5" />
-            <Picker.Item label="Dark" value="st6" />
-          </Picker>
+          <View style={styles.inputContainerStyle} >
+            <Text style={styles.labelStyle}>Name:</Text>
+            <TextInput
+              style={styles.inputStyle}
+              underlineColorAndroid="transparent"
+              placeholder="Jane"
+              onChangeText={(text) => this.setState({member: {...this.state.member, name: text}})}
+              value={this.state.member.name}
+            />
+          </View>
+          <View style={styles.inputContainerStyle} >
+            <Text style={styles.labelStyle}>Initials:</Text>
+            <TextInput
+              style={styles.inputStyle}
+              underlineColorAndroid="transparent"
+              placeholder="J"
+              onChangeText={(text) => this.setState({member: {...this.state.member, initials: text}})}
+              value={this.state.member.initials}
+            />
+          </View>
+          <View style={styles.inputContainerStyle} >
+            <Text style={styles.labelStyle}>Phone number:</Text>
+            <TextInput
+              style={styles.inputStyle}
+              underlineColorAndroid="transparent"
+              placeholder="+123456789"
+              onChangeText={(text) => this.setState({member: {...this.state.member, phone: text}})}
+              value={this.state.member.phone}
+            />
+          </View>
+          <View style={styles.inputContainerStyle} >
+            <Text style={styles.labelStyle}>Skin type:</Text>
+            <Picker
+                style={styles.pickerStyle}
+                selectedValue={this.state.member.skinType}
+                onValueChange={(itemValue, itemPosition) => this.setState({member: {...this.state.member, skinType: itemValue}})} >
+              <Picker.Item label="Very Light" value="st1" />
+              <Picker.Item label="Light" value="st2" />
+              <Picker.Item label="Light-Medium" value="st3" />
+              <Picker.Item label="Medium" value="st4" />
+              <Picker.Item label="Medium-Dark" value="st5" />
+              <Picker.Item label="Dark" value="st6" />
+            </Picker>
+          </View>
         </View>
         <View style={styles.buttonPanel} >
           <Button raised accent icon="cancel" text="Cancel"
@@ -175,6 +190,23 @@ const styles = StyleSheet.create({
   },
   container: {
     padding: 10
+  },
+  inputStyle: {
+    fontSize: 18,
+    borderColor: 'green',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderRadius: 5,
+    padding: 10,
+    textAlignVertical: 'center'
+  },
+  inputContainerStyle: {
+    marginTop: 10,
+    marginBottom: 10
+  },
+  labelStyle: {
+    fontSize: 14,
+    color: 'black'
   }
 })
 
