@@ -27,8 +27,8 @@ class TempGaugeComponent extends Component {
                 fill={(value/40)*100}
                 rotation={90}
                 cropDegree={90}
-                tintColor="#4682b4"
-                backgroundColor="#b0c4de" />
+                tintColor="#9F111B"
+                backgroundColor="#F5A2A2" />
               <Text style={styles.cardSubtext}>Temperature</Text>
             </View>
             <Icon style={styles.icon} name='info'/>
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   },
   text: {
     position: 'absolute',
-    fontSize: 23
+    fontSize: 24
   },
   cardSubtext: {
     fontSize: 18

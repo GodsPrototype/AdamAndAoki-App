@@ -29,6 +29,9 @@ const styles = StyleSheet.create({
     founderHeader: {
         flexDirection: 'row',
         justifyContent: 'space-between'
+    },
+    textStyle: {
+        fontSize: 16
     }
 });
 
@@ -43,7 +46,7 @@ const headerOne = ({ isOpen }) =>
         backgroundColor: '#f9f9f9',
     }}>
         <View style={styles.founderHeader}>
-            <Text>Founders</Text>
+            <Text style={styles.textStyle}>Founders</Text>
             {isOpen ?
                 <Icon name='keyboard-arrow-up'/> :
                 <Icon name='keyboard-arrow-down'/>
@@ -62,7 +65,7 @@ const headerTwo = ({ isOpen }) =>
         backgroundColor: '#f9f9f9',
     }}>
         <View style={styles.founderHeader}>
-            <Text>Our Story</Text>
+            <Text style={styles.textStyle}>Our Story</Text>
             {isOpen ?
                 <Icon name='keyboard-arrow-up'/> :
                 <Icon name='keyboard-arrow-down'/>
@@ -81,7 +84,7 @@ const headerThree = ({ isOpen }) =>
         backgroundColor: '#f9f9f9',
     }}>
         <View style={styles.founderHeader}>
-            <Text>Connect with us!</Text>
+            <Text style={styles.textStyle}>Connect with us!</Text>
             {isOpen ?
                 <Icon name='keyboard-arrow-up'/> :
                 <Icon name='keyboard-arrow-down'/>

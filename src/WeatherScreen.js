@@ -29,11 +29,13 @@ class WeatherScreen extends Component {
     return(
       <View style={styles.container}>
         <Toolbar
+          leftElement="arrow-back"
           style={{flex: 1}}
           centerElement="Weather"
+          onLeftElementPress={() => this.props.navigation.goBack()}
         />
         <Card>
-          <Subheader text="Weather Radar" />
+          <Subheader style={{text: {fontSize: 18}}}  text="Weather Radar" />
           <View style={{ height: 256}}>
             <WebView
               source={{uri: this.state.uri}}
@@ -43,7 +45,7 @@ class WeatherScreen extends Component {
         </Card>
         <Divider/>
         <Card>
-          <Subheader text="Weather Forecast"/>
+          <Subheader style={{text: {fontSize: 18}}} text="Weather Forecast"/>
           <WebView
             source={{uri: "https://gadgets.buienradar.nl/gadget/forecastandstation/6260"}}
             style={styles.weatherTable}

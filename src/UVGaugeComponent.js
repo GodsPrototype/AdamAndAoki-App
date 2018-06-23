@@ -27,8 +27,8 @@ class UVGaugeComponent extends Component {
                 fill={(value/11)*100}
                 rotation={90}
                 cropDegree={90}
-                tintColor="#4682b4"
-                backgroundColor="#b0c4de" />
+                tintColor="#C47D00"
+                backgroundColor="#D4D17A" />
               <Text style={styles.cardSubtext}>UV Index</Text>
             </View>
           </Card>
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   },
   text: {
     position: 'absolute',
-    fontSize: 23
+    fontSize: 24
   },
   cardSubtext: {
     fontSize: 18
