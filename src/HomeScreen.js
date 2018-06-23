@@ -74,6 +74,16 @@ class HomeScreen extends Component<Props> {
       })
     }
 
+    handleMenuClick = (e) => {
+        const i = e.index;
+        if (i === 0) {
+            this.fetchUV();
+            this.fetchTemp();
+        } else if (i === 1) {
+
+        }
+    }
+
     fetchUV() {
         const request = axios.create({
             baseURL: 'https://api.openuv.io/api/v1/uv',
@@ -126,7 +136,7 @@ class HomeScreen extends Component<Props> {
     render() {
         return(
             <View>
-              <Toolbar centerElement="Dashboard" />
+              <Toolbar centerElement="Dashboard" rightElement={{menu: { labels: ['Refresh', 'Help']}}} onRightElementPress={(e) => this.handleMenuClick(e)}/>
               <View style={styles.container}>
                   <UVGaugeComponent value={this.state.uv}  />
                   <TempGaugeComponent openWeather={this.openWeather.bind(this)} value={this.state.temp} />

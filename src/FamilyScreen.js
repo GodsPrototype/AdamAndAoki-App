@@ -86,7 +86,7 @@ class FamilyScreen extends Component {
 
         return(
             <View style={styles.containerStyle}>
-              <Toolbar centerElement="My Family" />
+              <Toolbar centerElement="My Family" rightElement={{actions: ['help']}}/>
               {screenContent()}
               <View style={styles.bottomNavStyle}>
                   <ActionButton icon="add" onPress={this.add} accessibilityComponentType="button" />
