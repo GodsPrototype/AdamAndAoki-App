@@ -4,39 +4,51 @@ import {Avatar} from 'react-native-material-ui';
 
 class MemberCard extends Component {
   render() {
-    const {name, initials, image, onPress} = this.props;
+    const {member, onPress} = this.props;
 
-    // Double view for styling purposes
+    formatTime = () => {
+        time = member.exposure_time;
+        if(time === null || time > 24*60){
+            return member.initials;
+        }
+        hours = Math.trunc(time/60);
+        timeString = hours + ':';
+        timeString += time - hours*60;
+        return timeString;
+    }
+
     return(
-        <View>
-            <TouchableOpacity onPress={onPress} >
+        <View style={styles.containerStyle}>
+            <TouchableOpacity onPress={onPress} accessibilityComponentType="button" >
             <View style={styles.viewStyle}>
                 <Avatar
-                    text={initials}
-                    image={<Image source={{uri: image}} />}
-                    size={85}
-                    style={{content: styles.avatatTextStyle}}
+                    text={formatTime()}
+                    image={<Image source={{uri: member.image}} />}
+                    size={80}
+                    style={{content: styles.avatarTextStyle}}
                 />
-                <Text style={styles.textStyle}>{name}</Text>
+                <Text style={styles.textStyle}>{member.name}</Text>
             </View>
             </TouchableOpacity>
         </View>
     )
-}
+    }
 }
 
 const styles = StyleSheet.create({
-  viewStyle: {
-      flex: 1,
-      alignItems: 'center',
-      padding: 10
-  },
-  textStyle: {
-      fontSize: 18
-  },
-  avatatTextStyle: {
-      fontSize: 25
-  }
+    containerStyle: {
+        margin: 10
+    },
+    viewStyle: {
+        flex: 1,
+        alignItems: 'center'
+    },
+    textStyle: {
+        fontSize: 18
+    },
+    avatarTextStyle: {
+        fontSize: 25
+    }
 });
 
 export default MemberCard;

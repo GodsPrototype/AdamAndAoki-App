@@ -172,12 +172,13 @@ class EditMemberScreen extends Component {
         <View style={styles.buttonPanel} >
           <Button raised accent icon="cancel" text="Cancel"
             onPress={() => this.props.navigation.goBack()}
+            accessibilityComponentType="button"
           />
           <Button raised accent disabled={this.state.member.id === -1} icon="delete" text="Delete"
-            onPress={this.delete}
+            onPress={this.delete} accessibilityComponentType="button"
           />
           <Button raised primary icon="done" text="Save"
-            onPress={this.save}
+            onPress={this.save} accessibilityComponentType="button"
           />
         </View>
       </View>

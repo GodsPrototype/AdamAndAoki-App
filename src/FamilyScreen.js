@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, FlatList, Dimensions} from 'react-native';
+import {View, Text, StyleSheet, FlatList} from 'react-native';
 import {ActionButton, Toolbar} from 'react-native-material-ui';
 import MemberCard from './MemberCard';
 
@@ -49,10 +49,7 @@ class FamilyScreen extends Component {
     // Render helper methods
     renderMemberItem = ({ item }) => (
         <MemberCard
-            id={item.id}
-            name={item.name}
-            initials={item.initials}
-            image={item.image}
+            member={item}
             onPress={() => this.props.navigation.navigate(
                 'ViewMember',
                 {member: item, beforeBack: this.goBackFunction, database: db}
@@ -60,27 +57,7 @@ class FamilyScreen extends Component {
         />
     );
 
-    keyExtractor = (item) => item.id;
-
-    getColumnCount = () => {
-        // A weird hack to get the number of columns for the list
-        return Math.trunc(Dimensions.get('window').width / 100);
-
-    }
-
-    onButtonPress = (e) => {
-        console.log(e);
-        switch(e) {
-            case "main-button":
-                break;
-            case "add":
-                this.props.navigation.navigate('EditMember', {beforeBack: this.goBackFunction, database: db});
-                break;
-            case "send":
-                console.log('send');
-                break;
-        }
-    }
+    keyExtractor = (item) => item.id.toString();
 
     add = () => {
         this.props.navigation.navigate('EditMember', {beforeBack: this.goBackFunction, database: db});
@@ -89,7 +66,6 @@ class FamilyScreen extends Component {
     render() {
         screenContent = () => {
             if(typeof this.state.familyMembers === 'undefined' || this.state.familyMembers.length === 0){
-                console.log('members is undefined');
                 return(
                     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}} >
                     <Text>Press the button below to add family members!</Text>
@@ -97,12 +73,12 @@ class FamilyScreen extends Component {
                 );
             }
             return(
-                <View style={styles.listStyle}>
+                <View accessibilityLiveRegion="polite">
                 <FlatList
+                    contentContainerStyle={styles.listStyle}
                     data={this.state.familyMembers}
                     renderItem={this.renderMemberItem}
                     keyExtractor={this.keyExtractor}
-                    numColumns={this.getColumnCount()}
                     />
                 </View>
             )
@@ -113,7 +89,7 @@ class FamilyScreen extends Component {
               <Toolbar centerElement="My Family" />
               {screenContent()}
               <View style={styles.bottomNavStyle}>
-                  <ActionButton icon="add" onPress={this.add} />
+                  <ActionButton icon="add" onPress={this.add} accessibilityComponentType="button" />
               </View>
             </View>
         )
@@ -125,8 +101,9 @@ const styles = StyleSheet.create({
     flex: 1
   },
   listStyle: {
-    flex: 0,
-    alignItems: 'center'
+    justifyContent: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap'
   },
   bottomNavStyle: {
     flex: 1

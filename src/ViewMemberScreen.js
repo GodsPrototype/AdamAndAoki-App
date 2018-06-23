@@ -90,10 +90,10 @@ class ViewMemberScreen extends Component {
                 </View>
                 <View style={styles.buttonPanel} >
                     <Button raised disabled={member.phone === ''} icon="send" text="Notify"
-                        onPress={this.send}
+                        onPress={this.send} accessibilityComponentType="button"
                     />
                     <Button raised primary icon="edit" text="Edit"
-                        onPress={this.edit}
+                        onPress={this.edit} accessibilityComponentType="button"
                     />
                 </View>
             </View>
