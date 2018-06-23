@@ -20,8 +20,8 @@ class MainSwipeableScreen extends Component<Props> {
   componentWillMount = () => {
     console.log('### Opening database...');
     db = SQLite.openDatabase(
-      {name : 'MemberDB', createFromLocation : '~MemberDB.db'}, 
-      () => console.log('### Done.'), 
+      {name : 'MemberDB', createFromLocation : '~MemberDB.db'},
+      () => console.log('### Done.'),
       (err) => console.log('### Error: ' + err.message)
     );
   }
@@ -82,7 +82,7 @@ class MainSwipeableScreen extends Component<Props> {
               />
               <BottomNavigation.Action
                 key="2"
-                label="About Us"
+                label="About"
                 icon="info"
                 onPress={() => this.onNavPress("2")}
               />

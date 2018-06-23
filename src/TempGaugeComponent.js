@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Text, StyleSheet, View, ActivityIndicator} from 'react-native';
-import {Card} from 'react-native-material-ui';
-import { AnimatedGaugeProgress, GaugeProgress } from 'react-native-simple-gauge';
+import {Card, Icon} from 'react-native-material-ui';
+import { AnimatedGaugeProgress, GaugeProgress} from 'react-native-simple-gauge';
 
 class TempGaugeComponent extends Component {
 
@@ -11,26 +11,29 @@ class TempGaugeComponent extends Component {
         <Card>
           <View style={styles.view}>
             <ActivityIndicator size="large"/>
-            <Text>Temperature</Text>
+            <Text style={styles.cardSubtext}>Temperature</Text>
           </View>
         </Card>
       )
     } else {
       return (
-        <Card onPress={() => openWeather()}>
-          <View style={styles.view}>
-            <Text style={styles.text}>{Math.round(value) + "°C"}</Text>
-            <AnimatedGaugeProgress
-              size={200}
-              width={15}
-              fill={(value/40)*100}
-              rotation={90}
-              cropDegree={90}
-              tintColor="#4682b4"
-              backgroundColor="#b0c4de" />
-            <Text>Temperature</Text>
-          </View>
-        </Card>
+        <View style={styles.container}>
+          <Card onPress={() => openWeather()}>
+            <View style={styles.view}>
+              <Text style={styles.text}>{Math.round(value) + "°C"}</Text>
+              <AnimatedGaugeProgress
+                size={200}
+                width={15}
+                fill={(value/40)*100}
+                rotation={90}
+                cropDegree={90}
+                tintColor="#4682b4"
+                backgroundColor="#b0c4de" />
+              <Text style={styles.cardSubtext}>Temperature</Text>
+            </View>
+            <Icon style={styles.icon} name='info'/>
+          </Card>
+        </View>
       )
     }
   }
@@ -42,6 +45,9 @@ class TempGaugeComponent extends Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    width: 300
+  },
   view: {
     display: 'flex',
     justifyContent: 'center',
@@ -49,7 +55,15 @@ const styles = StyleSheet.create({
     margin: 15
   },
   text: {
-    position: 'absolute'
+    position: 'absolute',
+    fontSize: 23
+  },
+  cardSubtext: {
+    fontSize: 18
+  },
+  icon: {
+    position: 'absolute',
+    margin: 5
   }
 });
 

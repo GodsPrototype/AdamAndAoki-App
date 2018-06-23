@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, ScrollView, StyleSheet} from 'react-native';
+import {View, Text, ScrollView, StyleSheet, TouchableOpacity, Linking} from 'react-native';
 import {Toolbar, Avatar, Icon} from 'react-native-material-ui';
 import Accordion from '@ercpereda/react-native-accordion';
 import FounderCard from './FounderCard';
@@ -18,6 +18,12 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
+        alignContent: 'flex-start'
+    },
+    socialView: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-around',
         alignContent: 'flex-start'
     },
     founderHeader: {
@@ -39,8 +45,8 @@ const headerOne = ({ isOpen }) =>
         <View style={styles.founderHeader}>
             <Text>Founders</Text>
             {isOpen ?
-                <Icon name='keyboard-arrow-down'/> :
-                <Icon name='keyboard-arrow-up'/>
+                <Icon name='keyboard-arrow-up'/> :
+                <Icon name='keyboard-arrow-down'/>
             }
         </View>
     </View>;
@@ -58,8 +64,8 @@ const headerTwo = ({ isOpen }) =>
         <View style={styles.founderHeader}>
             <Text>Our Story</Text>
             {isOpen ?
-                <Icon name='keyboard-arrow-down'/> :
-                <Icon name='keyboard-arrow-up'/>
+                <Icon name='keyboard-arrow-up'/> :
+                <Icon name='keyboard-arrow-down'/>
             }
         </View>
     </View>;
@@ -77,8 +83,8 @@ const headerThree = ({ isOpen }) =>
         <View style={styles.founderHeader}>
             <Text>Connect with us!</Text>
             {isOpen ?
-                <Icon name='keyboard-arrow-down'/> :
-                <Icon name='keyboard-arrow-up'/>
+                <Icon name='keyboard-arrow-up'/> :
+                <Icon name='keyboard-arrow-down'/>
             }
         </View>
     </View>;
@@ -99,9 +105,15 @@ const aboutUsContent = (
 );
 
 const socialContent = (
-    <View style={styles.founderView}>
-        <Avatar icon="facebook"/>
-        <Avatar icon ="twitter"/>
+    <View style={styles.socialView}>
+        <TouchableOpacity onPress={() => Linking.openURL('http://www.adamaoki.com/')}>
+            <Icon name='public' size={50}/>
+            <Text>Website</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => Linking.openURL('http://www.facebook.com/')}>
+            <Icon name='thumb-up' size={50}/>
+            <Text>Facebook</Text>
+        </TouchableOpacity>
     </View>
 );
 

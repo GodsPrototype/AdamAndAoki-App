@@ -127,15 +127,20 @@ class HomeScreen extends Component<Props> {
         return(
             <View>
               <Toolbar centerElement="Dashboard" />
-              <UVGaugeComponent value={this.state.uv}  />
-              <TempGaugeComponent openWeather={this.openWeather.bind(this)} value={this.state.temp} />
+              <View style={styles.container}>
+                  <UVGaugeComponent value={this.state.uv}  />
+                  <TempGaugeComponent openWeather={this.openWeather.bind(this)} value={this.state.temp} />
+              </View>
             </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
-
+    container: {
+        alignItems: 'center',
+        marginTop: 20
+    }
 });
 
 export default HomeScreen;
