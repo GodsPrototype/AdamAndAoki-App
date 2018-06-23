@@ -1,23 +1,61 @@
 import React from 'react';
-import {Text, Image} from 'react-native';
+import {Text, Image, View, StyleSheet} from 'react-native';
 import {Card, Avatar} from 'react-native-material-ui';
+
+const styles = StyleSheet.create({
+    image: {
+        flex: 1,
+        height: 50,
+        resizeMode: 'contain',
+        flexShrink: 2,
+    },
+    row: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignContent: 'flex-start',
+        alignItems: 'flex-start',
+        alignSelf: 'flex-start',
+        margin: 5
+
+    },
+    container: {
+        flex: 1,
+        alignContent: 'flex-start',
+
+    },
+    text: {
+        textAlign: 'center',
+        margin: 5
+
+    }
+});
 
 class FounderCard extends React.Component {
 
-  render() {
-    const {image, story} = this.props;
+    render() {
+        const {image,name, title, story} = this.props;
 
-    return(
-      <Card>
-        <Avatar
-          image={<Image source={image}/>}
-        />
-        <Text>
-          {story}
-        </Text>
-      </Card>
-    )
-  }
+        return(
+            <View style = {styles.container}>
+                <Card>
+                <View style = {styles.row}>
+                    <Image style = {styles.image} source={image}/>
+                </View>
+                <Text style={{fontWeight: 'bold',textAlign: 'center', margin: 5}}>
+                    {name}
+                </Text>
+                <Text style={{fontWeight: 'bold',textAlign: 'center', margin: 5}}>
+                    {title}
+                </Text>
+                <Text style={styles.text}>
+                    {story}
+                </Text>
+                </Card>
+            </View>
+
+        )
+    }
 }
 
 export default FounderCard;
