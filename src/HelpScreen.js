@@ -11,7 +11,7 @@ class HelpScreen extends React.Component {
           leftElement="arrow-back"
           style={{flex: 1}}
           centerElement="Help"
-          onLeftElementPress={() => this.props.navigation.goBack}
+          onLeftElementPress={() => this.props.navigation.goBack()}
         />
         <View style={styles.cardContainer}>
           <Icon name="help" size={50}/>

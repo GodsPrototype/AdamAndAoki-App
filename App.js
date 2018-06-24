@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import {createStackNavigator} from 'react-navigation';
 import IntroScreen from './src/IntroScreen';
+import IntroSlider from './src/IntroSlider';
 import HomeScreen from './src/HomeScreen';
 import WeatherScreen from './src/WeatherScreen';
 import FamilyScreen from './src/FamilyScreen';
@@ -24,7 +25,8 @@ import {COLOR, ThemeProvider } from 'react-native-material-ui';
 
 const uiTheme = {
   palette: {
-    primaryColor: '#C47D00',
+    primaryColor: '#3300a6',
+    primaryTextColor: COLOR.white
   },
   toolbar: {
     container: {
@@ -38,7 +40,12 @@ const uiTheme = {
 // to through the Swipeable screen
 const RootStack = createStackNavigator(
   {
-    Intro: { screen: IntroScreen },
+    Intro: {
+      screen: IntroSlider,
+      navigationOptions: () => ({
+        header: null
+      })
+    },
     Swipeable: {
       screen: MainSwipeableScreen,
       navigationOptions: () => ({
