@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, ScrollView, StyleSheet, TouchableOpacity, Linking} from 'react-native';
-import {Toolbar, Avatar, Icon, Card} from 'react-native-material-ui';
+import {Toolbar, Icon, Card} from 'react-native-material-ui';
 import Accordion from '@ercpereda/react-native-accordion';
 import FounderCard from './FounderCard';
 import menno from './images/menno.jpg';
@@ -10,6 +10,7 @@ const storyText = "Hello. We’re ADAM & AOKI, a technology company dedicated to
 const founderStory1 = "A Dutchman with a wealth of international experience outside having spent 5 years in China and 2 in Turkey & Morocco running production for large global retailers. Knows the nooks and crannies of the fashion business - from design to delivery - and pretty much everything in between."
 const founderStory2 = "British born but moved to Amsterdam after the 2012 Olympics where Nik has since mastered Marketing & PR. Spent the last 2 years heading up the communication department at the world's largest digital production, before deciding to leave it all behind and set-up ADAM & AOKI."
 
+// The styles are defined before the rest of the content to be available for all the consts.
 const styles = {
     founderView: {
         flex: 1,
@@ -61,6 +62,7 @@ const styles = {
     }
 };
 
+// The following three consts describe the accordion headers that will be displayed on the screen.
 const headerOne = ({ isOpen }) =>
     <View style={styles.headerContainer}>
         <View style={styles.founderHeader}>
@@ -94,6 +96,7 @@ const headerThree = ({ isOpen }) =>
         </View>
     </View>;
 
+// This returns the content for the founder accordion.
 const founderContent = (
     <View style={styles.founderView}>
         <FounderCard image={menno} name="Menno de Jong" title="Founder & Head of Production" story={founderStory1}/>
@@ -101,6 +104,7 @@ const founderContent = (
     </View>
 );
 
+// This returns the content for the about us accordion
 const aboutUsContent = (
     <View style={styles.aboutUsView}>
         <Card>
@@ -113,6 +117,7 @@ const aboutUsContent = (
     </View>
 );
 
+// This returns the content for the social accordion. 
 const socialContent = (
     <View style={styles.socialView}>
         <TouchableOpacity onPress={() => Linking.openURL('http://www.adamaoki.com/')}>

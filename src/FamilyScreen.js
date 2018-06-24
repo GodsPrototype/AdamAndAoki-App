@@ -12,29 +12,32 @@ class FamilyScreen extends Component {
         }
     }
 
+    // After the component mounts, get the database reference from the props
+    // and query the family members to display on the screen.
     componentDidMount = () => {
         db = this.props.database;
         this.queryData();
     }
 
-    // SQL methods
+    // Error and success callbacks to be used during database transactions
     errorCB = (err) => {
         console.log('### Error: ' + err.message)
         return false;
     }
 
+    // The logging has been commented out for performace reasons. In a more extensive
+    // app this method might include more actions
     successCB = () => {
-        console.log('### Done.');
+        // console.log('### Done.');
     }
 
+    // Query all member data from the database
     queryData = () => {
         db.transaction((tx) => {
-            console.log('### Querying...');
             tx.executeSql(
                 'SELECT * FROM FamilyMember JOIN exposuretimes ON skinType = skin_type',
                 [],
                 (tx, results) => {
-                    console.log('### Query completed');
                     this.setState({familyMembers: results.rows.raw()});
                 },
                 this.errorCB
@@ -42,12 +45,13 @@ class FamilyScreen extends Component {
         });
     }
 
-    // To refresh the family screen when we modify data and come back
+    // To refresh the family screen when we modify data in future screens and come back
     goBackFunction = () => {
         this.queryData();
     }
 
-    // Render helper methods
+    // Send button function. If the member has a phone number and there is a UV threat,
+    // a message is composed and the user is redirected to WhatsApp to finalize the sending
     send = (member) => {
         if(member.phone === null || member.exposure_time === null){
             return;
@@ -56,6 +60,7 @@ class FamilyScreen extends Component {
         Linking.openURL('whatsapp://send?text=' + message + '&phone=' + member.phone);
     }
 
+    // this formats time to be a readable string
     formatTime = (time) => {
         if(time === null){
             return '';
@@ -69,6 +74,7 @@ class FamilyScreen extends Component {
         return timeString;
     }
 
+    // For every member, this will return a list item with all the data filled in
     renderMemberItem = ({ item }) => (
         <ListItem
             divider
@@ -96,17 +102,23 @@ class FamilyScreen extends Component {
         />
     )
 
+    // Extracts the keys for a list item
     keyExtractor = (item) => item.id.toString();
 
+    // Add button function. It navigates the user to the edit screen to enter a new member.
     add = () => {
         this.props.navigation.navigate('EditMember', {beforeBack: this.goBackFunction, database: db});
     }
 
+    // Help button function, it nagivates the user to the help screen
     helpButton = () => {
         this.props.navigation.navigate('Help', { text: helpText})
     }
 
     render() {
+        // This will whoose what to display on the screen. If there are no members yet,
+        // it will return a message describing what to do. Otherwise, it will return a
+        // list of existing members.
         screenContent = () => {
             if(typeof this.state.familyMembers === 'undefined' || this.state.familyMembers.length === 0){
                 return(
@@ -151,7 +163,8 @@ const styles = {
         alignItems: 'center'
     },
     itemText: {
-      fontSize: 18, color: 'black'
+      fontSize: 18,
+      color: 'black'
     },
     centerElementContainer: {
       flexDirection: 'row'
