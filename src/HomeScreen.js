@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, Button, Alert, StyleSheet} from 'react-native';
+import {View, Text, Button, Alert, StyleSheet, TouchableOpacity} from 'react-native';
 import {Toolbar} from 'react-native-material-ui';
 import axios from 'axios';
 import UVGaugeComponent from './UVGaugeComponent';
@@ -10,6 +10,8 @@ SQLite.DEBUG(true);
 SQLite.enablePromise(false);
 let db;
 
+const helpText = "This screen allows you to check on:\n1. The UV Index at your current location\n2. The Weather at your current location\nPress on the weather meter to see more weather information";
+
 type Props = {};
 class HomeScreen extends Component<Props> {
     // State for homescreen is only uv and temp, which is initialised as null
@@ -18,7 +20,8 @@ class HomeScreen extends Component<Props> {
         temp: null,
         recommendations: null,
         lat: null,
-        lng: null
+        lng: null,
+        modalVisible: false
     }
 
     constructor(props) {
@@ -77,10 +80,10 @@ class HomeScreen extends Component<Props> {
     handleMenuClick = (e) => {
         const i = e.index;
         if (i === 0) {
-            this.fetchUV();
-            this.fetchTemp();
+          this.fetchUV();
+          this.fetchTemp();
         } else if (i === 1) {
-
+          this.props.navigation.navigate('Help', { text: helpText});
         }
     }
 

@@ -19,6 +19,7 @@ import FamilyScreen from './src/FamilyScreen';
 import EditMemberScreen from './src/EditMemberScreen';
 import ViewMemberScreen from './src/ViewMemberScreen';
 import MainSwipeableScreen from './src/MainSwipeableScreen';
+import HelpScreen from './src/HelpScreen';
 import {COLOR, ThemeProvider } from 'react-native-material-ui';
 
 const uiTheme = {
@@ -54,6 +55,12 @@ const RootStack = createStackNavigator(
     Family: { screen: FamilyScreen },
     EditMember: { screen: EditMemberScreen },
     ViewMember: { screen: ViewMemberScreen },
+    Help: {
+      screen: HelpScreen,
+      navigationOptions: () => ({
+        header: null
+      })
+    }
   },
   {
     initialRouteName: 'Intro',

@@ -3,6 +3,8 @@ import {View, Text, StyleSheet, FlatList} from 'react-native';
 import {ActionButton, Toolbar} from 'react-native-material-ui';
 import MemberCard from './MemberCard';
 
+const helpText = "Press on the + button on the bottom right to add a family member\nYou will then be able to add this person's information, including phone number and skin type\nYou can then easily track your family members' risk levels and send them recommendations based on the UV index";
+
 class FamilyScreen extends Component {
     constructor() {
         super();
@@ -63,6 +65,10 @@ class FamilyScreen extends Component {
         this.props.navigation.navigate('EditMember', {beforeBack: this.goBackFunction, database: db});
     }
 
+    helpButton = () => {
+        this.props.navigation.navigate('Help', { text: helpText})
+    }
+
     render() {
         screenContent = () => {
             if(typeof this.state.familyMembers === 'undefined' || this.state.familyMembers.length === 0){
@@ -86,7 +92,7 @@ class FamilyScreen extends Component {
 
         return(
             <View style={styles.containerStyle}>
-              <Toolbar centerElement="My Family" rightElement={{actions: ['help']}}/>
+              <Toolbar centerElement="My Family" rightElement={{actions: ['help']}} onRightElementPress={this.helpButton}/>
               {screenContent()}
               <View style={styles.bottomNavStyle}>
                   <ActionButton icon="add" onPress={this.add} accessibilityComponentType="button" />

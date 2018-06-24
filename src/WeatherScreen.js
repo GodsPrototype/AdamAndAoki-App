@@ -32,7 +32,7 @@ class WeatherScreen extends Component {
           leftElement="arrow-back"
           style={{flex: 1}}
           centerElement="Weather"
-          onLeftElementPress={() => this.props.navigation.goBack()}
+          onLeftElementPress={() => this.props.navigation.goBack}
         />
         <Card>
           <Subheader style={{text: {fontSize: 18}}}  text="Weather Radar" />
