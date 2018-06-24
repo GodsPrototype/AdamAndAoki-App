@@ -10,7 +10,7 @@ import UVGaugeComponent from './UVGaugeComponent';
 import TempGaugeComponent from './TempGaugeComponent';
 import SQLite from 'react-native-sqlite-storage';
 
-SQLite.DEBUG(true);
+SQLite.DEBUG(false);
 SQLite.enablePromise(false);
 let db;
 
@@ -81,7 +81,7 @@ class DashboardScreen extends Component {
 
         for (let k in rec) {
           tx.executeSql(
-            'UPDATE exposuretimes SET exposure_time = ? WHERE skin_type = ?',
+            'UPDATE ExposureTime SET exposureTime = ? WHERE skinType = ?',
             [rec[k], k],
             this.successCB,
             this.errorCB
@@ -118,7 +118,7 @@ class DashboardScreen extends Component {
         request.get().then((res) => {
             this.setState({
                 uv: res.data.result.uv,
-                recommendations: res.data.result.safe_exposure_time
+                recommendations: res.data.result.safe_exposureTime
             });
             this.updateExposureTimes();
         }).catch((err) => {

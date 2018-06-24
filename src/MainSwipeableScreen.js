@@ -6,7 +6,7 @@ import AboutScreen from './AboutScreen';
 import FamilyScreen from './FamilyScreen';
 import SQLite from 'react-native-sqlite-storage';
 
-SQLite.DEBUG(true);
+SQLite.DEBUG(false);
 SQLite.enablePromise(false);
 let db;
 

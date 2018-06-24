@@ -15,14 +15,14 @@ const slides = [
     backgroundColor: '#3300a6',
   },
   {
-    key: 'screen1',
+    key: 'screen2',
     title: 'Check the Weather',
     text: 'Check the local weather forecast and weather radar',
     image: require('./images/baseline_wb_cloudy_black_48dp.png'),
     backgroundColor: '#3300a6',
   },
   {
-    key: 'screen1',
+    key: 'screen3',
     title: 'Warn your Family',
     text: "Track and notify family members and their UV exposure\nYou can send personal recommendations based on skin type\nand the current UV Index",
     image: require('./images/baseline_people_black_48dp.png'),

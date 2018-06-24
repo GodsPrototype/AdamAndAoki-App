@@ -49,7 +49,7 @@ class EditMemberScreen extends Component {
     if(mid !== -1){
       db.transaction((tx) => {
         tx.executeSql(
-          'SELECT * FROM FamilyMember JOIN exposuretimes ON skinType = skin_type WHERE id = ?',
+          'SELECT * FROM FamilyMember JOIN ExposureTime USING(skinType) WHERE id = ?',
           [mid],
           (tx, results) => {
             this.setState({member: results.rows.item(0)});

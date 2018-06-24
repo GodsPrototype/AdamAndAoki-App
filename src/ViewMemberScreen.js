@@ -32,7 +32,7 @@ class ViewMemberScreen extends Component {
     // and redirects the user to WhatsApp to complete the send action.
     send = () => {
         member = this.props.navigation.getParam('member');
-        message = 'Hi ' + member.name + '! Make sure to not stay out in the sun for longer than ' + this.formatTime(member.exposure_time) + '.';
+        message = 'Hi ' + member.name + '! Make sure to not stay out in the sun for longer than ' + this.formatTime(member.exposureTime) + '.';
         Linking.openURL('whatsapp://send?text=' + message + '&phone=' + member.phone);
     }
 
@@ -92,7 +92,7 @@ class ViewMemberScreen extends Component {
                 <Divider />
                 <View style={styles.exposureContainerStyle} >
                     <Text style={styles.exposureTitleStyle}>Safe sun exposure time:</Text>
-                    <Text style={styles.timeStyle}>{this.formatTime(member.exposure_time)}</Text>
+                    <Text style={styles.timeStyle}>{this.formatTime(member.exposureTime)}</Text>
                 </View>
                 <View style={styles.buttonPanel} >
                     <Button raised disabled={member.phone === null || member.phone === ''} icon="send" text="Notify"

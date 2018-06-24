@@ -35,7 +35,7 @@ class FamilyScreen extends Component {
     queryData = () => {
         db.transaction((tx) => {
             tx.executeSql(
-                'SELECT * FROM FamilyMember JOIN exposuretimes ON skinType = skin_type',
+                'SELECT * FROM FamilyMember JOIN ExposureTime USING(skinType)',
                 [],
                 (tx, results) => {
                     this.setState({familyMembers: results.rows.raw()});
@@ -53,10 +53,10 @@ class FamilyScreen extends Component {
     // Send button function. If the member has a phone number and there is a UV threat,
     // a message is composed and the user is redirected to WhatsApp to finalize the sending
     send = (member) => {
-        if(member.phone === null || member.exposure_time === null){
+        if(member.phone === null || member.exposureTime === null){
             return;
         }
-        message = 'Hi ' + member.name + '! Make sure to not stay out in the sun for longer than ' + this.formatTime(member.exposure_time) + '.';
+        message = 'Hi ' + member.name + '! Make sure to not stay out in the sun for longer than ' + this.formatTime(member.exposureTime) + '.';
         Linking.openURL('whatsapp://send?text=' + message + '&phone=' + member.phone);
     }
 
@@ -84,7 +84,7 @@ class FamilyScreen extends Component {
                     <Text style={styles.itemText} >{item.name}</Text>
                     <View style={styles.centerElementContainer} >
                         <Icon name="brightness-low" style={styles.centerElementIcon} />
-                        <Text style={styles.centerElementText} >{this.formatTime(item.exposure_time)}</Text>
+                        <Text style={styles.centerElementText} >{this.formatTime(item.exposureTime)}</Text>
                     </View>
                 </View>
             }
@@ -92,7 +92,7 @@ class FamilyScreen extends Component {
                 <Button
                     primary icon="send" text="Send"
                     onPress={()=>this.send(item)}
-                    disabled={item.phone === null || item.phone === '' || item.exposure_time === ''}
+                    disabled={item.phone === null || item.phone === '' || item.exposureTime === ''}
                 />
             }
             onPress={() => this.props.navigation.navigate(
