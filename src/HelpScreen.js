@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   textStyle: {
     fontSize: 16,
     textAlign: 'center',
-    margin: 10
+    margin: 10,
   },
   cardContainer: {
     margin: 10,

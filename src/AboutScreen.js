@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, ScrollView, StyleSheet, TouchableOpacity, Linking} from 'react-native';
-import {Toolbar, Avatar, Icon} from 'react-native-material-ui';
+import {Toolbar, Avatar, Icon, Card} from 'react-native-material-ui';
 import Accordion from '@ercpereda/react-native-accordion';
 import FounderCard from './FounderCard';
 import menno from './images/menno.jpg';
@@ -20,6 +20,10 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignContent: 'flex-start'
     },
+    aboutUsView: {
+        flex: 1,
+        margin: 10
+    },
     socialView: {
         flex: 1,
         flexDirection: 'row',
@@ -32,6 +36,13 @@ const styles = StyleSheet.create({
     },
     textStyle: {
         fontSize: 16
+    },
+    cardContent: {
+        margin: 10,
+        width: 80,
+        height: 80,
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 });
 
@@ -100,22 +111,34 @@ const founderContent = (
 );
 
 const aboutUsContent = (
-    <View style={styles.founderView}>
-        <Text style={{textAlign: 'center', margin: 5}}>
-            {storyText}
-        </Text>
+    <View style={styles.aboutUsView}>
+        <Card>
+            <View style={styles.aboutUsView}>
+                <Text style={{textAlign: 'justify', margin: 5}}>
+                    {storyText}
+                </Text>
+            </View>
+        </Card>
     </View>
 );
 
 const socialContent = (
     <View style={styles.socialView}>
         <TouchableOpacity onPress={() => Linking.openURL('http://www.adamaoki.com/')}>
-            <Icon name='public' size={50}/>
-            <Text>Website</Text>
+            <Card>
+                <View style={styles.cardContent}>
+                    <Icon name='public' size={50}/>
+                    <Text>Website</Text>
+                </View>
+            </Card>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => Linking.openURL('http://www.facebook.com/')}>
-            <Icon name='thumb-up' size={50}/>
-            <Text>Facebook</Text>
+            <Card>
+                <View style={styles.cardContent}>
+                    <Icon name='thumb-up' size={50}/>
+                    <Text>Facebook</Text>
+                </View>
+            </Card>
         </TouchableOpacity>
     </View>
 );

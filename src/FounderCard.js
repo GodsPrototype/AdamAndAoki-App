@@ -22,10 +22,10 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignContent: 'flex-start',
-
+        margin: 2
     },
     text: {
-        textAlign: 'center',
+        textAlign: 'justify',
         margin: 5
 
     }
@@ -39,18 +39,18 @@ class FounderCard extends React.Component {
         return(
             <View style = {styles.container}>
                 <Card>
-                <View style = {styles.row}>
-                    <Image style = {styles.image} source={image}/>
-                </View>
-                <Text style={{fontWeight: 'bold',textAlign: 'center', margin: 5}}>
-                    {name}
-                </Text>
-                <Text style={{fontWeight: 'bold',textAlign: 'center', margin: 5}}>
-                    {title}
-                </Text>
-                <Text style={styles.text}>
-                    {story}
-                </Text>
+                    <View style = {styles.row}>
+                        <Image style = {styles.image} source={image}/>
+                    </View>
+                    <Text style={{fontWeight: 'bold',textAlign: 'center', margin: 5}}>
+                        {name}
+                    </Text>
+                    <Text style={{fontWeight: 'bold',textAlign: 'center', margin: 5}}>
+                        {title}
+                    </Text>
+                    <Text style={styles.text}>
+                        {story}
+                    </Text>
                 </Card>
             </View>
 
