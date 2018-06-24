@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, FlatList} from 'react-native';
-import {ActionButton, Toolbar} from 'react-native-material-ui';
-import MemberCard from './MemberCard';
+import {View, Text, StyleSheet, FlatList, Linking} from 'react-native';
+import {ActionButton, Toolbar, ListItem, Avatar, Button} from 'react-native-material-ui';
 
 const helpText = "Press on the + button on the bottom right to add a family member\nYou will then be able to add this person's information, including phone number and skin type\nYou can then easily track your family members' risk levels and send them recommendations based on the UV index";
 
@@ -49,15 +48,63 @@ class FamilyScreen extends Component {
     }
 
     // Render helper methods
+    send = (member) => {
+        if(member.phone === null || member.exposure_time === null){
+            return;
+        }
+        message = 'Hi ' + member.name + '! Make sure to not stay out in the sun for longer than ' + this.formatTime(member.exposure_time) + '.';
+        Linking.openURL('whatsapp://send?text=' + message + '&phone=' + member.phone);
+    }
+
+    formatTime = (time) => {
+        if(time === null){
+            return '';
+        }
+        timeString = '';
+        hours = Math.trunc(time/60);
+        if(hours > 0){
+            timeString += hours + 'h and ';
+        }
+        timeString += (time - hours*60) + 'mins';
+        return timeString;
+    }
+
+    formatTimeString = (time) => {
+        if(time === null){
+            return 'No UV threat';
+        }
+        return 'Safe sun exposure: ' + this.formatTime(time);
+    }
+
     renderMemberItem = ({ item }) => (
-        <MemberCard
-            member={item}
+        <ListItem
+            divider
+            leftElement={<Avatar text={item.initials} style={{content: {fontSize: 26}}} />}
+            centerElement={{
+                primaryText: item.name,
+                secondaryText: this.formatTimeString(item.exposure_time)
+            }}
+            rightElement={
+                <Button 
+                    primary icon="send" text="Send" 
+                    onPress={()=>this.send(item)} 
+                    disabled={item.phone === '' || item.exposure_time === ''} 
+                />
+            }
             onPress={() => this.props.navigation.navigate(
                 'ViewMember',
                 {member: item, beforeBack: this.goBackFunction, database: db}
             )}
+            style={{
+                primaryText: {
+                    fontSize: 18
+                },
+                secondaryText: {
+                    fontSize: 16
+                }
+            }}
         />
-    );
+    )
 
     keyExtractor = (item) => item.id.toString();
 
@@ -73,18 +120,17 @@ class FamilyScreen extends Component {
         screenContent = () => {
             if(typeof this.state.familyMembers === 'undefined' || this.state.familyMembers.length === 0){
                 return(
-                    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}} >
+                    <View style={styles.noMemberContainerStyle} >
                     <Text>Press the button below to add family members!</Text>
                     </View>
                 );
             }
             return(
                 <View accessibilityLiveRegion="polite">
-                <FlatList
-                    contentContainerStyle={styles.listStyle}
-                    data={this.state.familyMembers}
-                    renderItem={this.renderMemberItem}
-                    keyExtractor={this.keyExtractor}
+                    <FlatList
+                        data={this.state.familyMembers}
+                        keyExtractor={this.keyExtractor}
+                        renderItem={this.renderMemberItem}
                     />
                 </View>
             )
@@ -92,28 +138,28 @@ class FamilyScreen extends Component {
 
         return(
             <View style={styles.containerStyle}>
-              <Toolbar centerElement="My Family" rightElement={{actions: ['help']}} onRightElementPress={this.helpButton}/>
-              {screenContent()}
-              <View style={styles.bottomNavStyle}>
-                  <ActionButton icon="add" onPress={this.add} accessibilityComponentType="button" />
-              </View>
+                <Toolbar centerElement="My Family" rightElement={{actions: ['help']}} onRightElementPress={this.helpButton}/>
+                {screenContent()}
+                <View style={styles.bottomNavStyle}>
+                    <ActionButton icon="add" onPress={this.add} accessibilityComponentType="button" />
+                </View>
             </View>
         )
     }
 }
 
 const styles = StyleSheet.create({
-  containerStyle: {
-    flex: 1
-  },
-  listStyle: {
-    justifyContent: 'center',
-    flexDirection: 'row',
-    flexWrap: 'wrap'
-  },
-  bottomNavStyle: {
-    flex: 1
-  }
+    containerStyle: {
+        flex: 1
+    },
+    bottomNavStyle: {
+        flex: 1
+    },
+    noMemberContainerStyle: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
 });
 
 export default FamilyScreen;
