@@ -151,17 +151,17 @@ class AboutScreen extends Component {
                 <Accordion
                     header={headerOne}
                     content={founderContent}
-                    durection={300}
+                    duration={300}
                 />
                 <Accordion
                     header={headerTwo}
                     content={aboutUsContent}
-                    durection={300}
+                    duration={300}
                 />
                 <Accordion
                     header={headerThree}
                     content={socialContent}
-                    durection={300}
+                    duration={300}
                 />
             </View>
         )

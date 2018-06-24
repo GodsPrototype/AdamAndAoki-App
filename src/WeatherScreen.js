@@ -35,21 +35,25 @@ class WeatherScreen extends Component {
           onLeftElementPress={() => this.props.navigation.goBack}
         />
         <Card>
-          <Subheader style={{text: {fontSize: 18}}}  text="Weather Radar" />
-          <View style={{ height: 256}}>
-            <WebView
-              source={{uri: this.state.uri}}
-              style={styles.weatherMap}
-            />
+          <View style={styles.cardContentView}>
+            <Subheader style={{text: {fontSize: 18}}}  text="Weather Radar" />
+            <View style={{ height: 256}}>
+              <WebView
+                source={{uri: this.state.uri}}
+                style={styles.weatherMap}
+              />
+            </View>
           </View>
         </Card>
         <Divider/>
         <Card>
-          <Subheader style={{text: {fontSize: 18}}} text="Weather Forecast"/>
-          <WebView
-            source={{uri: "https://gadgets.buienradar.nl/gadget/forecastandstation/6260"}}
-            style={styles.weatherTable}
-          />
+          <View style={styles.weatherTableContainer}>
+            <Subheader style={{text: {fontSize: 18}}} text="Weather Forecast"/>
+            <WebView
+              source={{uri: "https://gadgets.buienradar.nl/gadget/forecastandstation/6260"}}
+              style={styles.weatherTable}
+            />
+          </View>
         </Card>
       </View>
     )
@@ -67,8 +71,14 @@ const styles = StyleSheet.create({
     maxHeight: 256
   },
   weatherTable: {
-    width: 300,
-    maxHeight: 190
+    width: 300
+  },
+  cardContentView: {
+    margin: 10
+  },
+  weatherTableContainer: {
+    height: 240,
+    margin: 10
   }
 });
 

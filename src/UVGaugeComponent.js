@@ -38,8 +38,8 @@ class UVGaugeComponent extends Component {
   }
 
   render() {
-      const {value} = this.props;
-      return this.checkSpinner(value);
+    const {value} = this.props;
+    return this.checkSpinner(value);
   };
 }
 
