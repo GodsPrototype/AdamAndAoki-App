@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text} from 'react-native';
 import {Toolbar, Card, Icon} from 'react-native-material-ui';
 
 class HelpScreen extends React.Component {
@@ -9,7 +9,7 @@ class HelpScreen extends React.Component {
       <View>
         <Toolbar
           leftElement="arrow-back"
-          style={{flex: 1}}
+          style={styles.toolbarStyle}
           centerElement="Help"
           onLeftElementPress={() => this.props.navigation.goBack()}
         />
@@ -24,7 +24,7 @@ class HelpScreen extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = {
   textStyle: {
     fontSize: 16,
     textAlign: 'center',
@@ -33,7 +33,10 @@ const styles = StyleSheet.create({
   cardContainer: {
     margin: 10,
     alignItems: 'center',
+  },
+  toolbarStyle: {
+    flex: 1
   }
-})
+}
 
 export default HelpScreen;

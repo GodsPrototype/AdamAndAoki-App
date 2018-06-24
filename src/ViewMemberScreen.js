@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Linking} from 'react-native';
-import {Button, Divider, Icon, Card} from 'react-native-material-ui';
+import {View, Text, Linking} from 'react-native';
+import {Button, Divider} from 'react-native-material-ui';
 
 class ViewMemberScreen extends Component {
     goBackFunction = (member) => {
@@ -97,7 +97,7 @@ class ViewMemberScreen extends Component {
     }
 }
 
-const styles = StyleSheet.create({
+const styles = {
     buttonPanel: {
         flexDirection: "row",
         justifyContent: "space-evenly"
@@ -137,6 +137,6 @@ const styles = StyleSheet.create({
         marginBottom: 15,
         alignItems: 'center'
     }
-})
+}
 
 export default ViewMemberScreen;

@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import {View, Text, WebView, StyleSheet, Alert} from 'react-native';
+import {View, WebView} from 'react-native';
 import {Toolbar, Card, Subheader, Divider} from 'react-native-material-ui';
-import axios from 'axios';
 
 class WeatherScreen extends Component {
   state = {
@@ -30,14 +29,14 @@ class WeatherScreen extends Component {
       <View style={styles.container}>
         <Toolbar
           leftElement="arrow-back"
-          style={{flex: 1}}
+          style={styles.toolbarStyle}
           centerElement="Weather"
           onLeftElementPress={() => this.props.navigation.goBack()}
         />
         <Card>
           <View style={styles.cardContentView}>
-            <Subheader style={{text: {fontSize: 18}}}  text="Weather Radar" />
-            <View style={{ height: 256}}>
+            <Subheader style={styles.subheaderStyle}  text="Weather Radar" />
+            <View style={styles.webViewContainer}>
               <WebView
                 source={{uri: this.state.uri}}
                 style={styles.weatherMap}
@@ -48,7 +47,7 @@ class WeatherScreen extends Component {
         <Divider/>
         <Card>
           <View style={styles.weatherTableContainer}>
-            <Subheader style={{text: {fontSize: 18}}} text="Weather Forecast"/>
+            <Subheader style={styles.subheaderStyle} text="Weather Forecast"/>
             <WebView
               source={{uri: "https://gadgets.buienradar.nl/gadget/forecastandstation/6260"}}
               style={styles.weatherTable}
@@ -60,7 +59,7 @@ class WeatherScreen extends Component {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = {
   container: {
     alignItems: 'center',
     flexDirection: 'column',
@@ -79,7 +78,15 @@ const styles = StyleSheet.create({
   weatherTableContainer: {
     height: 240,
     margin: 10
+  },
+  subheaderStyle: {
+    text: {
+      fontSize: 18
+    }
+  },
+  webViewContainer: {
+    height: 256
   }
-});
+}
 
 export default WeatherScreen;

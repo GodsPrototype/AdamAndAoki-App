@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {Text, StyleSheet, View, ActivityIndicator} from 'react-native';
+import {Text, View, ActivityIndicator} from 'react-native';
 import {Card, Icon} from 'react-native-material-ui';
-import { AnimatedGaugeProgress, GaugeProgress} from 'react-native-simple-gauge';
+import { AnimatedGaugeProgress} from 'react-native-simple-gauge';
 
 class TempGaugeComponent extends Component {
 
@@ -44,7 +44,7 @@ class TempGaugeComponent extends Component {
     };
 }
 
-const styles = StyleSheet.create({
+const styles = {
   container: {
     width: 300
   },
@@ -65,6 +65,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     margin: 5
   }
-});
+}
 
 export default TempGaugeComponent;

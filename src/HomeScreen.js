@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, Button, Alert, StyleSheet, ScrollView} from 'react-native';
+import {View, Alert, ScrollView} from 'react-native';
 import {Toolbar} from 'react-native-material-ui';
 import axios from 'axios';
 import UVGaugeComponent from './UVGaugeComponent';
@@ -58,12 +58,10 @@ class HomeScreen extends Component<Props> {
     }
 
     successCB = () => {
-        console.log('### Done.');
     }
 
     updateExposureTimes = () => {
       db.transaction((tx) => {
-        console.log('### Updating...');
         rec = this.state.recommendations;
 
         for (let k in rec) {
@@ -151,11 +149,11 @@ class HomeScreen extends Component<Props> {
     }
 }
 
-const styles = StyleSheet.create({
+const styles = {
     container: {
         alignItems: 'center',
         marginTop: 20
     }
-});
+}
 
 export default HomeScreen;

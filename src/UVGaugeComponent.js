@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {Text, StyleSheet, View, ActivityIndicator} from 'react-native';
+import {Text, View, ActivityIndicator} from 'react-native';
 import {Card} from 'react-native-material-ui';
-import { AnimatedGaugeProgress, GaugeProgress } from 'react-native-simple-gauge';
+import { AnimatedGaugeProgress } from 'react-native-simple-gauge';
 
 class UVGaugeComponent extends Component {
 
@@ -43,7 +43,7 @@ class UVGaugeComponent extends Component {
   };
 }
 
-const styles = StyleSheet.create({
+const styles = {
   container: {
     width: 300
   },
@@ -60,6 +60,6 @@ const styles = StyleSheet.create({
   cardSubtext: {
     fontSize: 18
   },
-});
+}
 
 export default UVGaugeComponent;

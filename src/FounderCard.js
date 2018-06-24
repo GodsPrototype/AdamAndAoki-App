@@ -1,8 +1,34 @@
 import React from 'react';
-import {Text, Image, View, StyleSheet} from 'react-native';
-import {Card, Avatar} from 'react-native-material-ui';
+import {Text, Image, View} from 'react-native';
+import {Card} from 'react-native-material-ui';
 
-const styles = StyleSheet.create({
+class FounderCard extends React.Component {
+
+    render() {
+        const {image,name, title, story} = this.props;
+
+        return(
+            <View style = {styles.container}>
+                <Card>
+                    <View style = {styles.row}>
+                        <Image style = {styles.image} source={image}/>
+                    </View>
+                    <Text style={styles.titleStyle}>
+                        {name}
+                    </Text>
+                    <Text style={styles.titleStyle}>
+                        {title}
+                    </Text>
+                    <Text style={styles.text}>
+                        {story}
+                    </Text>
+                </Card>
+            </View>
+        )
+    }
+}
+
+const styles = {
     image: {
         flex: 1,
         height: 50,
@@ -17,7 +43,6 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
         alignSelf: 'flex-start',
         margin: 5
-
     },
     container: {
         flex: 1,
@@ -29,33 +54,12 @@ const styles = StyleSheet.create({
         margin: 5,
         color: 'black'
 
-    }
-});
-
-class FounderCard extends React.Component {
-
-    render() {
-        const {image,name, title, story} = this.props;
-
-        return(
-            <View style = {styles.container}>
-                <Card>
-                    <View style = {styles.row}>
-                        <Image style = {styles.image} source={image}/>
-                    </View>
-                    <Text style={{fontWeight: 'bold',textAlign: 'center', margin: 5, color: 'black'}}>
-                        {name}
-                    </Text>
-                    <Text style={{fontWeight: 'bold',textAlign: 'center', margin: 5, color: 'black'}}>
-                        {title}
-                    </Text>
-                    <Text style={styles.text}>
-                        {story}
-                    </Text>
-                </Card>
-            </View>
-
-        )
+    },
+    titleStyle: {
+        fontWeight: 'bold',
+        textAlign: 'center',
+        margin: 5,
+        color: 'black'
     }
 }
 

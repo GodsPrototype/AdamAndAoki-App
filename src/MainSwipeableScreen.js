@@ -17,24 +17,21 @@ class MainSwipeableScreen extends Component<Props> {
     currentPage: "0"
   }
 
-  componentWillMount = () => {
-    console.log('### Opening database...');
+  constructor(props){
+    super(props);
     db = SQLite.openDatabase(
       {name : 'MemberDB', createFromLocation : '~MemberDB.db'},
-      () => console.log('### Done.'),
+      () => {},
       (err) => console.log('### Error: ' + err.message)
     );
   }
 
   componentWillUnmount = () => {
     if (db) {
-      console.log('### Closing database...');
       db.close(
-        () => console.log('### Done.'),
+        () => {},
         (err) => console.log('### Error: ' + err.message)
       );
-    } else {
-      console.log('### Database was not opened');
     }
   }
 

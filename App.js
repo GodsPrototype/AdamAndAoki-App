@@ -12,7 +12,6 @@ import {
   View
 } from 'react-native';
 import {createStackNavigator} from 'react-navigation';
-import IntroScreen from './src/IntroScreen';
 import IntroSlider from './src/IntroSlider';
 import HomeScreen from './src/HomeScreen';
 import WeatherScreen from './src/WeatherScreen';
