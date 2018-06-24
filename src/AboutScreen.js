@@ -10,10 +10,7 @@ const storyText = "Hello. We’re ADAM & AOKI, a technology company dedicated to
 const founderStory1 = "A Dutchman with a wealth of international experience outside having spent 5 years in China and 2 in Turkey & Morocco running production for large global retailers. Knows the nooks and crannies of the fashion business - from design to delivery - and pretty much everything in between."
 const founderStory2 = "British born but moved to Amsterdam after the 2012 Olympics where Nik has since mastered Marketing & PR. Spent the last 2 years heading up the communication department at the world's largest digital production, before deciding to leave it all behind and set-up ADAM & AOKI."
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
+const styles = {
     founderView: {
         flex: 1,
         flexDirection: 'row',
@@ -44,11 +41,8 @@ const styles = StyleSheet.create({
         height: 80,
         alignItems: 'center',
         justifyContent: 'center'
-    }
-});
-
-const headerOne = ({ isOpen }) =>
-    <View style={{
+    },
+    headerContainer: {
         paddingTop: 15,
         paddingRight: 15,
         paddingLeft: 15,
@@ -56,7 +50,19 @@ const headerOne = ({ isOpen }) =>
         borderBottomWidth: 1,
         borderBottomColor: '#a9a9a9',
         backgroundColor: '#f9f9f9',
-    }}>
+    },
+    storyStyle: {
+      textAlign: 'justify',
+      margin: 5,
+      color: 'black'
+    },
+    headerText: {
+      color: 'black'
+    }
+};
+
+const headerOne = ({ isOpen }) =>
+    <View style={styles.headerContainer}>
         <View style={styles.founderHeader}>
             <Text style={styles.textStyle}>Founders</Text>
             {isOpen ?
@@ -67,15 +73,7 @@ const headerOne = ({ isOpen }) =>
     </View>;
 
 const headerTwo = ({ isOpen }) =>
-    <View style={{
-        paddingTop: 15,
-        paddingRight: 15,
-        paddingLeft: 15,
-        paddingBottom: 15,
-        borderBottomWidth: 1,
-        borderBottomColor: '#a9a9a9',
-        backgroundColor: '#f9f9f9',
-    }}>
+    <View style={styles.headerContainer}>
         <View style={styles.founderHeader}>
             <Text style={styles.textStyle}>Our Story</Text>
             {isOpen ?
@@ -86,15 +84,7 @@ const headerTwo = ({ isOpen }) =>
     </View>;
 
 const headerThree = ({ isOpen }) =>
-    <View style={{
-        paddingTop: 15,
-        paddingRight: 15,
-        paddingLeft: 15,
-        paddingBottom: 15,
-        borderBottomWidth: 1,
-        borderBottomColor: '#a9a9a9',
-        backgroundColor: '#f9f9f9',
-    }}>
+    <View style={styles.headerContainer}>
         <View style={styles.founderHeader}>
             <Text style={styles.textStyle}>Connect with us!</Text>
             {isOpen ?
@@ -115,7 +105,7 @@ const aboutUsContent = (
     <View style={styles.aboutUsView}>
         <Card>
             <View style={styles.aboutUsView}>
-                <Text style={{textAlign: 'justify', margin: 5, color: 'black'}}>
+                <Text style={styles.storyStyle}>
                     {storyText}
                 </Text>
             </View>
@@ -129,7 +119,7 @@ const socialContent = (
             <Card>
                 <View style={styles.cardContent}>
                     <Icon name='public' size={50}/>
-                    <Text style={{color: 'black'}}>Website</Text>
+                    <Text style={styles.headerText}>Website</Text>
                 </View>
             </Card>
         </TouchableOpacity>
@@ -137,7 +127,7 @@ const socialContent = (
             <Card>
                 <View style={styles.cardContent}>
                     <Icon name='thumb-up' size={50}/>
-                    <Text style={{color: 'black'}} >Facebook</Text>
+                    <Text style={styles.headerText}>Facebook</Text>
                 </View>
             </Card>
         </TouchableOpacity>

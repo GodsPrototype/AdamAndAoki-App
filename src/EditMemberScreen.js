@@ -8,8 +8,8 @@ SQLite.enablePromise(false);
 let db, mid = -1;
 
 class EditMemberScreen extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       member: {
         id: -1,
@@ -19,12 +19,12 @@ class EditMemberScreen extends Component {
         phone: ''
       }
     }
+      // Save the id in a local variable mid, because the state will take some time to set up completely
+      mid = props.navigation.getParam('id', -1);
+      db = props.navigation.getParam('database');
   }
 
-  componentWillMount = () => {
-    // Save the id in a local variable mid, because the state will take some time to set up completely
-    mid = this.props.navigation.getParam('id', -1);
-    db = this.props.navigation.getParam('database');
+  componentDidMount = () => {
     this.queryData();
   }
 
@@ -43,12 +43,12 @@ class EditMemberScreen extends Component {
       db.transaction((tx) => {
         console.log('### Querying...');
         tx.executeSql(
-          'SELECT * FROM FamilyMember JOIN exposuretimes ON skinType = skin_type WHERE id = ?', 
-          [mid], 
+          'SELECT * FROM FamilyMember JOIN exposuretimes ON skinType = skin_type WHERE id = ?',
+          [mid],
           (tx, results) => {
             console.log('### Query completed');
             this.setState({member: results.rows.item(0)});
-          }, 
+          },
           this.errorCB
         );
       });
@@ -188,7 +188,7 @@ class EditMemberScreen extends Component {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = {
   buttonPanel: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
@@ -220,6 +220,6 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderRadius: 5,
   }
-})
+};
 
 export default EditMemberScreen;
