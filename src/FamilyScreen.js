@@ -53,9 +53,6 @@ class FamilyScreen extends Component {
     // Send button function. If the member has a phone number and there is a UV threat,
     // a message is composed and the user is redirected to WhatsApp to finalize the sending
     send = (member) => {
-        if(member.phone === null || member.exposureTime === null){
-            return;
-        }
         message = 'Hi ' + member.name + '! Make sure to not stay out in the sun for longer than ' + this.formatTime(member.exposureTime) + '.';
         Linking.openURL('whatsapp://send?text=' + message + '&phone=' + member.phone);
     }
@@ -92,7 +89,7 @@ class FamilyScreen extends Component {
                 <Button
                     primary icon="send" text="Send"
                     onPress={()=>this.send(item)}
-                    disabled={item.phone === null || item.phone === '' || item.exposureTime === ''}
+                    disabled={item.phone === null || item.phone === '' || item.exposureTime === null || item.exposureTime === ''}
                 />
             }
             onPress={() => this.props.navigation.navigate(

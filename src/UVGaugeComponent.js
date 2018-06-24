@@ -15,7 +15,7 @@ class UVGaugeComponent extends Component {
         <Card>
           <View style={styles.view}>
             <ActivityIndicator size="large"/>
-            <Text>Temperature</Text>
+            <Text style={styles.cardSubtext}>UV Index</Text>
           </View>
         </Card>
       )
