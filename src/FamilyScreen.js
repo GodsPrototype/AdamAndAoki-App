@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, FlatList, Linking} from 'react-native';
-import {ActionButton, Toolbar, ListItem, Avatar, Button} from 'react-native-material-ui';
+import {View, Text, StyleSheet, FlatList, Linking, ScrollView} from 'react-native';
+import {ActionButton, Toolbar, ListItem, Avatar, Button, Icon} from 'react-native-material-ui';
 
 const helpText = "Press on the + button on the bottom right to add a family member\nYou will then be able to add this person's information, including phone number and skin type\nYou can then easily track your family members' risk levels and send them recommendations based on the UV index";
 
@@ -69,21 +69,19 @@ class FamilyScreen extends Component {
         return timeString;
     }
 
-    formatTimeString = (time) => {
-        if(time === null){
-            return 'No UV threat';
-        }
-        return 'Safe sun exposure: ' + this.formatTime(time);
-    }
-
     renderMemberItem = ({ item }) => (
         <ListItem
             divider
             leftElement={<Avatar text={item.initials} style={{content: {fontSize: 26}}} />}
-            centerElement={{
-                primaryText: item.name,
-                secondaryText: this.formatTimeString(item.exposure_time)
-            }}
+            centerElement={
+                <View>
+                    <Text style={{fontSize: 18, color: 'black'}} >{item.name}</Text>
+                    <View style={{flexDirection: 'row'}} >
+                        <Icon name="brightness-low" style={{marginRight: 5}} />
+                        <Text style={{fontSize: 16}} >{this.formatTime(item.exposure_time)}</Text>
+                    </View>
+                </View>
+            }
             rightElement={
                 <Button 
                     primary icon="send" text="Send" 
@@ -95,14 +93,6 @@ class FamilyScreen extends Component {
                 'ViewMember',
                 {member: item, beforeBack: this.goBackFunction, database: db}
             )}
-            style={{
-                primaryText: {
-                    fontSize: 18
-                },
-                secondaryText: {
-                    fontSize: 16
-                }
-            }}
         />
     )
 

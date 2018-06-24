@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, Button, Alert, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, Button, Alert, StyleSheet, ScrollView} from 'react-native';
 import {Toolbar} from 'react-native-material-ui';
 import axios from 'axios';
 import UVGaugeComponent from './UVGaugeComponent';
@@ -138,13 +138,15 @@ class HomeScreen extends Component<Props> {
 
     render() {
         return(
-            <View>
-              <Toolbar centerElement="Dashboard" rightElement={{menu: { labels: ['Refresh', 'Help']}}} onRightElementPress={(e) => this.handleMenuClick(e)}/>
-              <View style={styles.container}>
-                  <UVGaugeComponent value={this.state.uv}  />
-                  <TempGaugeComponent openWeather={this.openWeather.bind(this)} value={this.state.temp} />
-              </View>
-            </View>
+            <ScrollView>
+                <View>
+                <Toolbar centerElement="Dashboard" rightElement={{menu: { labels: ['Refresh', 'Help']}}} onRightElementPress={(e) => this.handleMenuClick(e)}/>
+                <View style={styles.container}>
+                    <UVGaugeComponent value={this.state.uv}  />
+                    <TempGaugeComponent openWeather={this.openWeather.bind(this)} value={this.state.temp} />
+                </View>
+                </View>
+            </ScrollView>
         );
     }
 }

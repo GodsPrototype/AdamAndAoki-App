@@ -35,7 +35,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     textStyle: {
-        fontSize: 16
+        fontSize: 18,
+        color: 'black'
     },
     cardContent: {
         margin: 10,
@@ -114,7 +115,7 @@ const aboutUsContent = (
     <View style={styles.aboutUsView}>
         <Card>
             <View style={styles.aboutUsView}>
-                <Text style={{textAlign: 'justify', margin: 5}}>
+                <Text style={{textAlign: 'justify', margin: 5, color: 'black'}}>
                     {storyText}
                 </Text>
             </View>
@@ -128,7 +129,7 @@ const socialContent = (
             <Card>
                 <View style={styles.cardContent}>
                     <Icon name='public' size={50}/>
-                    <Text>Website</Text>
+                    <Text style={{color: 'black'}}>Website</Text>
                 </View>
             </Card>
         </TouchableOpacity>
@@ -136,7 +137,7 @@ const socialContent = (
             <Card>
                 <View style={styles.cardContent}>
                     <Icon name='thumb-up' size={50}/>
-                    <Text>Facebook</Text>
+                    <Text style={{color: 'black'}} >Facebook</Text>
                 </View>
             </Card>
         </TouchableOpacity>
@@ -146,24 +147,26 @@ const socialContent = (
 class AboutScreen extends Component {
     render() {
         return(
-            <View>
-                <Toolbar centerElement="About Us"/>
-                <Accordion
-                    header={headerOne}
-                    content={founderContent}
-                    duration={300}
-                />
-                <Accordion
-                    header={headerTwo}
-                    content={aboutUsContent}
-                    duration={300}
-                />
-                <Accordion
-                    header={headerThree}
-                    content={socialContent}
-                    duration={300}
-                />
-            </View>
+            <ScrollView>
+                <View>
+                    <Toolbar centerElement="About Us"/>
+                    <Accordion
+                        header={headerOne}
+                        content={founderContent}
+                        duration={300}
+                    />
+                    <Accordion
+                        header={headerTwo}
+                        content={aboutUsContent}
+                        duration={300}
+                    />
+                    <Accordion
+                        header={headerThree}
+                        content={socialContent}
+                        duration={300}
+                    />
+                </View>
+            </ScrollView>
         )
     }
 }

@@ -26,7 +26,8 @@ const styles = StyleSheet.create({
     },
     text: {
         textAlign: 'justify',
-        margin: 5
+        margin: 5,
+        color: 'black'
 
     }
 });
@@ -42,10 +43,10 @@ class FounderCard extends React.Component {
                     <View style = {styles.row}>
                         <Image style = {styles.image} source={image}/>
                     </View>
-                    <Text style={{fontWeight: 'bold',textAlign: 'center', margin: 5}}>
+                    <Text style={{fontWeight: 'bold',textAlign: 'center', margin: 5, color: 'black'}}>
                         {name}
                     </Text>
-                    <Text style={{fontWeight: 'bold',textAlign: 'center', margin: 5}}>
+                    <Text style={{fontWeight: 'bold',textAlign: 'center', margin: 5, color: 'black'}}>
                         {title}
                     </Text>
                     <Text style={styles.text}>
