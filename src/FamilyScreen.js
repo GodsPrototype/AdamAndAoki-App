@@ -63,7 +63,7 @@ class FamilyScreen extends Component {
     // this formats time to be a readable string
     formatTime = (time) => {
         if(time === null){
-            return '';
+            return 'No UV threat';
         }
         timeString = '';
         hours = Math.trunc(time/60);
