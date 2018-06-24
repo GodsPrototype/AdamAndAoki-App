@@ -89,7 +89,7 @@ class ViewMemberScreen extends Component {
                     <Text style={styles.timeStyle}>{this.formatTime(member.exposure_time)}</Text>
                 </View>
                 <View style={styles.buttonPanel} >
-                    <Button raised disabled={member.phone === ''} icon="send" text="Notify"
+                    <Button raised disabled={member.phone === null || member.phone === ''} icon="send" text="Notify"
                         onPress={this.send} accessibilityComponentType="button"
                     />
                     <Button raised primary icon="edit" text="Edit"

@@ -88,7 +88,7 @@ class FamilyScreen extends Component {
                 <Button 
                     primary icon="send" text="Send" 
                     onPress={()=>this.send(item)} 
-                    disabled={item.phone === '' || item.exposure_time === ''} 
+                    disabled={item.phone === null || item.phone === '' || item.exposure_time === ''} 
                 />
             }
             onPress={() => this.props.navigation.navigate(
