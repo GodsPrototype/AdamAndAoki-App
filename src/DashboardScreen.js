@@ -10,7 +10,7 @@ import UVGaugeComponent from './UVGaugeComponent';
 import TempGaugeComponent from './TempGaugeComponent';
 import SQLite from 'react-native-sqlite-storage';
 
-SQLite.DEBUG(false);
+SQLite.DEBUG(true);
 SQLite.enablePromise(false);
 let db;
 
@@ -118,7 +118,7 @@ class DashboardScreen extends Component {
         request.get().then((res) => {
             this.setState({
                 uv: res.data.result.uv,
-                recommendations: res.data.result.safe_exposureTime
+                recommendations: res.data.result.safe_exposure_time
             });
             this.updateExposureTimes();
         }).catch((err) => {

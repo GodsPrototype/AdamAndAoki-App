@@ -3,7 +3,7 @@ import {View, Text, TextInput, Picker, Alert} from 'react-native';
 import {Button, Divider} from 'react-native-material-ui';
 import SQLite from 'react-native-sqlite-storage';
 
-SQLite.DEBUG(false);
+SQLite.DEBUG(true);
 SQLite.enablePromise(false);
 let db, mid = -1;
 
