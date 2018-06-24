@@ -71,10 +71,6 @@ class ViewMemberScreen extends Component {
                         <Text style={styles.textOutputStyle}>{member.name}</Text>
                     </View>
                     <View style={styles.outputContainerStyle}>
-                        <Text style={styles.labelStyle}>Initials:</Text>
-                        <Text style={styles.textOutputStyle}>{member.initials}</Text>
-                    </View>
-                    <View style={styles.outputContainerStyle}>
                         <Text style={styles.labelStyle}>Phone number:</Text>
                         <Text style={styles.textOutputStyle}>{member.phone}</Text>
                     </View>

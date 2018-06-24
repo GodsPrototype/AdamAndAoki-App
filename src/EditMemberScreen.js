@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {View, Text, TextInput, StyleSheet, Picker} from 'react-native';
-import {Button, Card} from 'react-native-material-ui';
+import {View, Text, TextInput, StyleSheet, Picker, Alert} from 'react-native';
+import {Button, Divider} from 'react-native-material-ui';
 import SQLite from 'react-native-sqlite-storage';
 
 SQLite.DEBUG(true);
@@ -103,13 +103,23 @@ class EditMemberScreen extends Component {
   }
 
   save = () => {
-    if(this.state.member.id === -1){
-      this.insertData();
-    } else {
-      this.updateData();
+    if(this.validateData()){
+      if(this.state.member.id === -1){
+        this.insertData();
+      } else {
+        this.updateData();
+      }
+      this.props.navigation.state.params.beforeBack(this.state.member);
+      this.props.navigation.goBack();
     }
-    this.props.navigation.state.params.beforeBack(this.state.member);
-    this.props.navigation.goBack();
+  }
+
+  validateData = () => {
+    if(this.state.member.name === ''){
+      Alert.alert('Error', 'Please enter a name');
+      return false;
+    }
+    return true;
   }
 
   delete = () => {
@@ -123,23 +133,13 @@ class EditMemberScreen extends Component {
       <View style={styles.container}>
         <View>
           <View style={styles.inputContainerStyle} >
-            <Text style={styles.labelStyle}>Name:</Text>
+            <Text style={styles.labelStyle}>Name*:</Text>
             <TextInput
               style={styles.inputStyle}
               underlineColorAndroid="transparent"
               placeholder="Jane"
-              onChangeText={(text) => this.setState({member: {...this.state.member, name: text}})}
+              onChangeText={(text) => this.setState({member: {...this.state.member, name: text, initials: text.charAt(0)}})}
               value={this.state.member.name}
-            />
-          </View>
-          <View style={styles.inputContainerStyle} >
-            <Text style={styles.labelStyle}>Initials:</Text>
-            <TextInput
-              style={styles.inputStyle}
-              underlineColorAndroid="transparent"
-              placeholder="J"
-              onChangeText={(text) => this.setState({member: {...this.state.member, initials: text}})}
-              value={this.state.member.initials}
             />
           </View>
           <View style={styles.inputContainerStyle} >
@@ -153,7 +153,7 @@ class EditMemberScreen extends Component {
             />
           </View>
           <View style={styles.inputContainerStyle} >
-            <Text style={styles.labelStyle}>Skin type:</Text>
+            <Text style={styles.labelStyle}>Skin type*:</Text>
             <View style={styles.pickerContainerStyle}>
               <Picker
                   style={styles.pickerStyle}
@@ -168,6 +168,8 @@ class EditMemberScreen extends Component {
               </Picker>
             </View>
           </View>
+          <Divider />
+          <Text>* - Required</Text>
         </View>
         <View style={styles.buttonPanel} >
           <Button raised accent icon="cancel" text="Cancel"
@@ -198,7 +200,7 @@ const styles = StyleSheet.create({
   inputStyle: {
     fontSize: 18,
     borderColor: 'green',
-    borderWidth: 1,
+    borderWidth: 2,
     borderStyle: 'solid',
     borderRadius: 5,
     padding: 10,
@@ -214,7 +216,7 @@ const styles = StyleSheet.create({
   },
   pickerContainerStyle: {
     borderColor: 'green',
-    borderWidth: 1,
+    borderWidth: 2,
     borderStyle: 'solid',
     borderRadius: 5,
   }
