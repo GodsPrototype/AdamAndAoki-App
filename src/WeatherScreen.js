@@ -34,7 +34,7 @@ class WeatherScreen extends Component {
           onLeftElementPress={() => this.props.navigation.goBack()}
         />
         <Card>
-          <View style={styles.cardContentView}>
+          <View accessible accessibilityLabel="This shows a weather radar for the next three hours" style={styles.cardContentView}>
             <Subheader style={styles.subheaderStyle}  text="Weather Radar" />
             <View style={styles.webViewContainer}>
               <WebView
@@ -46,7 +46,7 @@ class WeatherScreen extends Component {
         </Card>
         <Divider/>
         <Card>
-          <View style={styles.weatherTableContainer}>
+          <View accessible accessibilityLabel="This table shows the weather forecast for this week" style={styles.weatherTableContainer}>
             <Subheader style={styles.subheaderStyle} text="Weather Forecast"/>
             <WebView
               source={{uri: "https://gadgets.buienradar.nl/gadget/forecastandstation/6260"}}

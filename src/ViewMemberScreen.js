@@ -66,15 +66,15 @@ class ViewMemberScreen extends Component {
         return(
             <View style={styles.containerStyle}>
                 <View>
-                    <View style={styles.outputContainerStyle}>
+                    <View importantForAccessibility='yes' style={styles.outputContainerStyle}>
                         <Text style={styles.labelStyle}>Name:</Text>
                         <Text style={styles.textOutputStyle}>{member.name}</Text>
                     </View>
-                    <View style={styles.outputContainerStyle}>
+                    <View importantForAccessibility='yes' style={styles.outputContainerStyle}>
                         <Text style={styles.labelStyle}>Phone number:</Text>
                         <Text style={styles.textOutputStyle}>{member.phone}</Text>
                     </View>
-                    <View style={styles.outputContainerStyle}>
+                    <View importantForAccessibility='yes' style={styles.outputContainerStyle}>
                         <Text style={styles.labelStyle}>Skin type:</Text>
                         <Text style={styles.textOutputStyle}>{formatSkinType(member.skinType)}</Text>
                     </View>

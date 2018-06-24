@@ -141,20 +141,20 @@ class AboutScreen extends Component {
                 <View>
                     <Toolbar centerElement="About Us"/>
                     <Accordion
-                        header={headerOne}
-                        content={founderContent}
-                        duration={300}
-                    />
+                          header={headerOne}
+                          content={founderContent}
+                          duration={300}
+                      />
                     <Accordion
-                        header={headerTwo}
-                        content={aboutUsContent}
-                        duration={300}
-                    />
+                          header={headerTwo}
+                          content={aboutUsContent}
+                          duration={300}
+                      />
                     <Accordion
-                        header={headerThree}
-                        content={socialContent}
-                        duration={300}
-                    />
+                          header={headerThree}
+                          content={socialContent}
+                          duration={300}
+                      />
                 </View>
             </ScrollView>
         )

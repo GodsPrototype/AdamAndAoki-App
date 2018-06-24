@@ -137,7 +137,7 @@ class EditMemberScreen extends Component {
             <TextInput
               style={styles.inputStyle}
               underlineColorAndroid="transparent"
-              placeholder="Jane"
+              placeholder="Name"
               onChangeText={(text) => this.setState({member: {...this.state.member, name: text, initials: text.charAt(0)}})}
               value={this.state.member.name}
             />
@@ -147,7 +147,7 @@ class EditMemberScreen extends Component {
             <TextInput
               style={styles.inputStyle}
               underlineColorAndroid="transparent"
-              placeholder="+123456789"
+              placeholder="Phone Number"
               onChangeText={(text) => this.setState({member: {...this.state.member, phone: text}})}
               value={this.state.member.phone}
             />
