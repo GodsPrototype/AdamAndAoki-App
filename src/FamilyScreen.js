@@ -12,7 +12,7 @@ class FamilyScreen extends Component {
         }
     }
 
-    componentWillMount = () => {
+    componentDidMount = () => {
         db = this.props.database;
         this.queryData();
     }
@@ -72,20 +72,20 @@ class FamilyScreen extends Component {
     renderMemberItem = ({ item }) => (
         <ListItem
             divider
-            leftElement={<Avatar text={item.initials} style={{content: {fontSize: 26}}} />}
+            leftElement={<Avatar text={item.initials} style={styles.leftElementStyle} />}
             centerElement={
                 <View>
-                    <Text style={{fontSize: 18, color: 'black'}} >{item.name}</Text>
-                    <View style={{flexDirection: 'row'}} >
-                        <Icon name="brightness-low" style={{marginRight: 5}} />
-                        <Text style={{fontSize: 16}} >{this.formatTime(item.exposure_time)}</Text>
+                    <Text style={styles.itemText} >{item.name}</Text>
+                    <View style={styles.centerElementContainer} >
+                        <Icon name="brightness-low" style={styles.centerElementIcon} />
+                        <Text style={styles.centerElementText} >{this.formatTime(item.exposure_time)}</Text>
                     </View>
                 </View>
             }
             rightElement={
-                <Button 
-                    primary icon="send" text="Send" 
-                    onPress={()=>this.send(item)} 
+                <Button
+                    primary icon="send" text="Send"
+                    onPress={()=>this.send(item)}
                     disabled={item.phone === null || item.phone === '' || item.exposure_time === ''}
                 />
             }
@@ -138,7 +138,7 @@ class FamilyScreen extends Component {
     }
 }
 
-const styles = StyleSheet.create({
+const styles = {
     containerStyle: {
         flex: 1
     },
@@ -149,7 +149,24 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    itemText: {
+      fontSize: 18, color: 'black'
+    },
+    centerElementContainer: {
+      flexDirection: 'row'
+    },
+    centerElementIcon: {
+      marginRight: 5
+    },
+    centerElementText: {
+      fontSize: 16
+    },
+    leftElementStyle: {
+      content: {
+        fontSize: 26
+      }
     }
-});
+};
 
 export default FamilyScreen;
