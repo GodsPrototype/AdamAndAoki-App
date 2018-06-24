@@ -1,22 +1,27 @@
 import React, {Component} from 'react';
-import {View, WebView} from 'react-native';
+import {View, WebView, ScrollView} from 'react-native';
 import {Toolbar, Card, Subheader, Divider} from 'react-native-material-ui';
 
+// This screen shows the weather radar and forecast for the user's current location
 class WeatherScreen extends Component {
+  // State only holds the custom URI for fetching the weather radar
   state = {
-    uri: null,
-    list: null
+    uri: null
   }
 
   constructor(props) {
     super(props);
   }
 
+  // When the component has mounted, then the URI will be constructed and
+  // the WebView will update itself to contain the weather radar
   componentDidMount() {
     this.createURI();
   }
 
+  // Creates a custom url to get the weather radar for the current location
   createURI() {
+    // Receives lat and long as parameters from the parent component (Dashboard)
     let lat = this.props.navigation.state.params.lat;
     let long = this.props.navigation.state.params.lng;
 
@@ -26,35 +31,37 @@ class WeatherScreen extends Component {
 
   render() {
     return(
-      <View style={styles.container}>
-        <Toolbar
-          leftElement="arrow-back"
-          style={styles.toolbarStyle}
-          centerElement="Weather"
-          onLeftElementPress={() => this.props.navigation.goBack()}
-        />
-        <Card>
-          <View accessible accessibilityLabel="This shows a weather radar for the next three hours" style={styles.cardContentView}>
-            <Subheader style={styles.subheaderStyle}  text="Weather Radar" />
-            <View style={styles.webViewContainer}>
+      <ScrollView>
+        <View style={styles.container}>
+          <Toolbar
+            leftElement="arrow-back"
+            style={styles.toolbarStyle}
+            centerElement="Weather"
+            onLeftElementPress={() => this.props.navigation.goBack()}
+          />
+          <Card>
+            <View accessible accessibilityLabel="This shows a weather radar for the next three hours" style={styles.cardContentView}>
+              <Subheader style={styles.subheaderStyle}  text="Weather Radar" />
+              <View style={styles.webViewContainer}>
+                <WebView
+                  source={{uri: this.state.uri}}
+                  style={styles.weatherMap}
+                />
+              </View>
+            </View>
+          </Card>
+          <Divider/>
+          <Card>
+            <View accessible accessibilityLabel="This table shows the weather forecast for this week" style={styles.weatherTableContainer}>
+              <Subheader style={styles.subheaderStyle} text="Weather Forecast"/>
               <WebView
-                source={{uri: this.state.uri}}
-                style={styles.weatherMap}
+                source={{uri: "https://gadgets.buienradar.nl/gadget/forecastandstation/6260"}}
+                style={styles.weatherTable}
               />
             </View>
-          </View>
-        </Card>
-        <Divider/>
-        <Card>
-          <View accessible accessibilityLabel="This table shows the weather forecast for this week" style={styles.weatherTableContainer}>
-            <Subheader style={styles.subheaderStyle} text="Weather Forecast"/>
-            <WebView
-              source={{uri: "https://gadgets.buienradar.nl/gadget/forecastandstation/6260"}}
-              style={styles.weatherTable}
-            />
-          </View>
-        </Card>
-      </View>
+          </Card>
+        </View>
+      </ScrollView>
     )
   }
 }

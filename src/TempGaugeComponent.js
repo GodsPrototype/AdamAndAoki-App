@@ -5,6 +5,14 @@ import { AnimatedGaugeProgress} from 'react-native-simple-gauge';
 
 class TempGaugeComponent extends Component {
 
+  // This function will receive a value (the value to be shown on the gauge)
+  // and generate either a ActivityIndicator/ Spinner to indicate that it is
+  // loading information on the background, IF the value is null
+  // Otherwise, it will correctly render the gauge with the value.
+
+  // The difference between the UV and Temp gauge component is that the temp
+  // gauge component needs to be clickable to open weather. This function (openWeather)
+  // is passed down as a prop from the parent component
   checkSpinner(value, openWeather) {
     if (value === null) {
       return(

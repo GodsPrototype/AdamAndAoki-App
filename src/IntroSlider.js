@@ -1,6 +1,11 @@
 import React from 'react';
 import AppIntroSlider from 'react-native-app-intro-slider';
 
+/* This is the first screen entered through the app
+  It uses an intro slider to showcase the basic functionality of the application
+*/
+
+// Here we simply define the different content for each of the slides
 const slides = [
   {
     key: 'screen1',
@@ -25,6 +30,7 @@ const slides = [
   }
 ];
 
+// What is rendered when the IntroSlider is called, containing the slides and buttons
 class IntroSlider extends React.Component {
 
   onDone = () => {

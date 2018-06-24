@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import {createStackNavigator} from 'react-navigation';
 import IntroSlider from './src/IntroSlider';
-import HomeScreen from './src/HomeScreen';
+import DashboardScreen from './src/DashboardScreen';
 import WeatherScreen from './src/WeatherScreen';
 import FamilyScreen from './src/FamilyScreen';
 import EditMemberScreen from './src/EditMemberScreen';
@@ -22,6 +22,9 @@ import MainSwipeableScreen from './src/MainSwipeableScreen';
 import HelpScreen from './src/HelpScreen';
 import {COLOR, ThemeProvider } from 'react-native-material-ui';
 
+// App.js is the root of our app, where the navigation and theming is defined
+
+// UI theme allows us to choose styling to be used throughout the entire app
 const uiTheme = {
   palette: {
     primaryColor: '#3300a6',
@@ -34,9 +37,8 @@ const uiTheme = {
   }
 }
 
-// Define all the different screens we can navigate to
-// TODO: Some of these could be removed, because they are navigated
-// to through the Swipeable screen
+// Using a stack navigator, we define which screens can be navigated through using
+// this.props.navigation in others screens
 const RootStack = createStackNavigator(
   {
     Intro: {
@@ -51,7 +53,7 @@ const RootStack = createStackNavigator(
         header: null
       })
     },
-    Home: { screen: HomeScreen },
+    Dashboard: { screen: DashboardScreen },
     Weather: {
       screen: WeatherScreen ,
       navigationOptions: () => ({
@@ -68,14 +70,15 @@ const RootStack = createStackNavigator(
       })
     }
   },
+  // Our initial screen is the intro slider, as defined here
   {
     initialRouteName: 'Intro',
   }
 );
 
 // Export the class App, which returns our RootStack component with
-// different screens defined, through which our IntroScreen should be the
-// first to be initialised
+// different screens defined. It is wrapped in the ThemeProvider so that we
+// can maintain a consistent style throughout the application.
 export default class App extends Component {
   render() {
     return (

@@ -5,6 +5,10 @@ import { AnimatedGaugeProgress } from 'react-native-simple-gauge';
 
 class UVGaugeComponent extends Component {
 
+  // This function will receive a value (the value to be shown on the gauge)
+  // and generate either a ActivityIndicator/ Spinner to indicate that it is
+  // loading information on the background, IF the value is null
+  // Otherwise, it will correctly render the gauge with the value
   checkSpinner(value) {
     if (value === null) {
       return(

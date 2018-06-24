@@ -2,6 +2,11 @@ import React from 'react';
 import {Text, Image, View} from 'react-native';
 import {Card} from 'react-native-material-ui';
 
+
+// This component renders a card containing a given image, name, title and story.
+// This is for the about screen, which contains the image, name, title and story
+// for each of the founders. The data is passed through and rendered dynamically
+// depending on the data that is passed through
 class FounderCard extends React.Component {
 
     render() {
