@@ -147,7 +147,7 @@ class AboutScreen extends Component {
     render() {
         return(
             <View>
-                <Toolbar centerElement="About Us" rightElement={{actions: ['help']}}/>
+                <Toolbar centerElement="About Us"/>
                 <Accordion
                     header={headerOne}
                     content={founderContent}
