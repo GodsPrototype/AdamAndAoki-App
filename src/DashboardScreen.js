@@ -96,8 +96,7 @@ class DashboardScreen extends Component {
     handleMenuClick = (e) => {
         const i = e.index;
         if (i === 0) {
-          this.fetchUV();
-          this.fetchTemp();
+          this.getLocation();
         } else if (i === 1) {
           this.props.navigation.navigate('Help', { text: helpText});
         }
